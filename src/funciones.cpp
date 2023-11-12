@@ -1,17 +1,15 @@
 #include "funciones.h"
-
 using namespace std;
 
 // Funciones de menu
 void logo() {
 
-    // Configuración de colores para la consola (puedes ajustarlos)
     system("color F0"); // Fondo negro y texto verde
 
     string bienvenidos = "BIENVENIDOS ;)";
     int tam = bienvenidos.size();
 
-    // Texto del logo
+    // Logo
     gotoxy(30, 2);
     cout << "      :+:::+::+:        :+:::+:::           :+:  \n";
     gotoxy(30, 3);
@@ -34,9 +32,8 @@ void logo() {
 
     // Dibujo de la palabra "BIENVENIDO" en el espacio designado
     for (int i = 0; i < tam; i++) {
-
-        cout << bienvenidos[i];
-        Sleep(500);
+        printf("%c", bienvenidos.at(i));
+        Sleep(50);
     }
 
     gotoxy((100 - 22) / 2, 13);
@@ -54,7 +51,8 @@ void bienvenida() {
     }
 }
 
-void ValidacionID() { // Si se le ingresa un numero de legajo valido, esta genera una contraseña
+void ValidacionID() {
+	// Si se le ingresa un numero de legajo valido, esta genera una contraseña
     system("cls");
 
     bool flagNumero;
@@ -68,11 +66,11 @@ void ValidacionID() { // Si se le ingresa un numero de legajo valido, esta gener
     do { // Validacion del numero de legajo.
 
         flagNumero = true;
-
+		
         limpiarRenglon(7);
         gotoxy(47, 7);
         getline(cin, legajoS);
-
+		
         int i = 0, tam = legajoS.size();
         while (flagNumero and i < tam) {
             if (!isdigit(legajoS.at(i))) {
@@ -82,11 +80,15 @@ void ValidacionID() { // Si se le ingresa un numero de legajo valido, esta gener
         }
 
         if (flagNumero)
-            legajo = strToInt(legajoS);
+            legajo = stoi(legajoS);
 
         gotoxy((100 - 55) / 2, 8);
-        if ((legajo > 10000 and legajo < 89999) and flagNumero) dentroDeRango = true;
-        else cout << "Legajo incorrecto. Por favor ingrese de nuevo su legajo" << endl;
+		
+        if ((legajo >= 10000 and legajo <= 89999) and flagNumero) 
+			dentroDeRango = true;
+		
+        else 
+			cout << "Legajo incorrecto. Por favor ingrese de nuevo su legajo" << endl;
     } while (!dentroDeRango);
 
     if (dentroDeRango) {
@@ -99,10 +101,15 @@ void generarID(int legajo, int ID[]) {
     // Generacion de la contraseña
     int aux;
 
-    for (int i = 4; i >= 0; i--) { // Genero arreglo con el numero de legajo para luego trabajar cada posicion por si sola. 
-        ID[i] = legajo % 10;
-        legajo = legajo / 10;
+    for (int i = 4; i >= 0; i--) { 
+		/*
+		Genero arreglo con el numero de legajo 
+		para luego trabajar cada posicion por si sola. 
+        */
+		ID[i] = legajo % 10;
+		legajo /= 10;
     }
+	
     aux = ID[0];
     ID[0] = ID[4]; //le asigno al primer digito el valor del ultimo
     ID[4] = (ID[0] + aux) % 10; // asigno al ultimo digito el valor correspondiente
@@ -116,68 +123,91 @@ void Ingresarcontrasenia(char Clave[]) {
     // Permite ingresar la contraseña y en pantalla se la muestra oculta (a traves de asteriscos)
 
     int i = 0;
-    cout.flush();
+	bool flag = true;
 
-    do {
-        Clave[i] = (unsigned char) getch();
-
-        if (Clave[i] != 8) // no es retroceso
-        {
+	do {
+        
+		Clave[i] = getch();
+		
+		if(Clave[i] == (char) 13)
+			flag = false;
+		
+		
+		else if (Clave[i] != 8){// no es retroceso
+			
             cout << '*'; // muestra por pantalla
-            i++;
-        } else if (i > 0) // es retroceso y hay caracteres
-        {
+			
+			i++;	
+        } 
+		
+		else if (i > 0) {// es retroceso y hay caracteres
+			
             cout << (char) 8 << (char) 32 << (char) 8;
+			
             i--; //el caracter a borrar el backspace
         }
-        cout.flush();
-
-    } while (Clave[i - 1] != 13); // si presiona ENTER
-
-    Clave[i - 1] = '\0';
-    cout << endl;
+		
+    } while (flag);
+	
+	Clave[5] = '\0';
 }
 
 void ValidacionContrasenia(int ID[]) { // Esta funcion valida la contraseña
+	
     int intentos = 0, i = 4;
-    bool contraCorrecta = false;
-    char contrasenia[6], claveCHAR[6];
-    contrasenia[6] = '\0';
-    string contraseniaUsuario, Clave;
-    convertirIDAchar(ID, contrasenia, i);
-    contraseniaUsuario = string(contrasenia);
+    bool esValida = false;
+    char contrasenia[6], claveReal[6];
+	
+	// Convierte ID numerico a una cadena
+    convertirIDAchar(ID, claveReal, i); 
+
+	
     gotoxy((100 - 22) / 2, 10);
     cout << "Ingrese la contrase" << char(164) << "a: " << endl;
-    do { // Valoidacion de contraseña y contador de intentos. Al tercer intento sale mensaje de error y corta el programa
+	
+    do { 
+		/* 
+		Validacion de contraseña, 3 intentos
+		*/
+		
         limpiarRenglon(12);
-
+		
         gotoxy(47, 12);
-        Ingresarcontrasenia(claveCHAR);
-        Clave = string(claveCHAR);
-
-        if (Clave == contraseniaUsuario) {
-            contraCorrecta = true;
-        } else {
+        Ingresarcontrasenia(contrasenia);
+		
+        if (strstr(claveReal, contrasenia) != NULL) 
+           
+			esValida = true;
+        
+		
+		else {
+			
             gotoxy((100 - 63) / 2, 13);
-            if (intentos < 2) cout << "Contrase" << char(164) << "a incorrecta. Por favor ingrese otra vez la contrase" << char(164) << "a" << endl;
+			
+            if (intentos < 2) 
+				cout << "Contrase" << char(164) << "a incorrecta. "
+				<< "Por favor ingrese" << endl;
+			
             intentos++;
         }
 
         if (intentos > 2) {
+			
             limpiarRenglon(13);
             gotoxy((100 - 31) / 2, 13);
+			
             cout << char(173) << "Cantidad de intentos excedida!" << endl;
         }
 
-    } while (!contraCorrecta and intentos < 3);
+    } while (!esValida and intentos < 3);
 
-    cin.ignore();
-
-    if (contraCorrecta) menuPpal(); // si la contraseña es correcta llamamos al menu principal y comienza el juego
+    if (esValida) menuPpal(); 
+	// si la contraseña es correcta llamamos al menu principal
 
 }
 
-void convertirIDAchar(int ID[], char contrasenia[], int i) { // Esta funcion convierte un arreglo entero en un arreglo de caracteres
+void convertirIDAchar(int ID[], char contrasenia[], int i) { 
+	// Esta funcion convierte un arreglo entero en un arreglo de caracteres
     if (i == 0) {
         contrasenia[0] = ('0' + ID[0]);
         return;
@@ -188,30 +218,30 @@ void convertirIDAchar(int ID[], char contrasenia[], int i) { // Esta funcion con
 }
 
 void menuPpal() {
-
-    system("cls");
-
-    string opcion = "no", opcion_princ;
+	
+	char opcion_user;
+	bool flag = true;
 
     do {
-
+		
+		system("cls");
+		
         cout << "----------------\n" <<
             "|MENU PRINCIPAL|\n" <<
             "----------------\n" <<
             "1) Abecedarios\n" <<
             "2) Juegos\n" <<
             "X) Salir de App\n" << endl;
-
+		
+		
         do {
-            limpiarRenglon(7);
-            gotoxy(0, 7);
-            getline(cin, opcion_princ);
-
-            limpiarRenglon(9);
+            opcion_user = getch();
+			
             gotoxy(0, 9);
-        } while (esNroMenuValido(opcion_princ));
+			
+        } while (!menu_valido(opcion_user));
 
-        switch (toupper(opcion_princ.at(0))) {
+        switch (opcion_user) {
 
         case '1':
             system("cls");
@@ -224,73 +254,81 @@ void menuPpal() {
             break;
 
         case 'X':
-            opcion = volverMenuAnterior(0);
+            flag = cierre_app();
             break;
         }
 
-    } while (opcion == "no");
+    } while (flag);
 
     return;
 }
 
-string volverMenuAnterior(int continuaPrograma) {
+
+bool cierre_app() {
     system("cls");
 
-    string mensaje, opcion;
-    bool esopcion;
-
-    // Mensaje depende si hay menu anterior o no
-    if (continuaPrograma)
-        mensaje = "DE VOLVER AL MENU PRINCIPAL?\n";
-    else mensaje = "DE ABANDONAR?\n";
-
-    cout << char(168) << "ESTAS SEGURO " << mensaje <<
-        "Escribe 'SI' si estas seguro\n" <<
-        "'NO' para volver al menu" << endl;
+    string opcion;
+    bool es_opcion, continuar;
+	
+	
+	// Alerta previa cerrar app
+	cout << char(168) 
+		<< "ESTAS SEGURO DE ABANDONAR?" <<
+		"Escribe 'SI' si estas seguro\n" <<
+		"'NO' para volver al menu" << endl;
+	
 
     do {
-        cin >> ws;
         getline(cin, opcion);
-
-        identificar_espacios_al_final(opcion); // por si el usuario ingreso espacios al final, para que no de error el programa esto los 				borra si hubiesen
+		
+		
+		// Correccion de entrada de usuario
+        identificar_espacios_al_final(opcion);
         pasar_minusculas(opcion);
-        esopcion = verificar_si_o_no(opcion);
-
-        if (esopcion) {
+        es_opcion = verificar_si_o_no(opcion);
+		
+		
+        if (es_opcion) {
+			
             system("cls");
-            // Descarte de opciones diferente a si o no
-            if (opcion == "no");
-            else if (opcion == "si"
-                and!continuaPrograma) {
-                cout << char(173) << "HASTA LUEGO!" << endl;
-            }
-        } else cout << "Por favor, ingresar si o no: ";
-
-    } while (esopcion == false);
-    return opcion;
+			
+            if (opcion == "si"){
+				
+				cout << char(173) << "HASTA LUEGO!" << endl;
+				continuar = false;
+				
+			}
+			
+            else if (opcion == "no")
+				
+				continuar = true;
+				
+			
+        }
+		
+		else cout << "Ingresar unicamente si o no: ";
+		
+    } while (es_opcion == false);
+	
+	
+    return continuar;
 }
 
-bool esNroMenuValido(string & x) {
-
-    // Funcion devuelve si condicion de repeticion (rep) es V o F
+bool menu_valido(char c) {
 
     bool rep;
 
-    if (x.empty()) {
+    if (isdigit(c) or toupper(c) == 'X') 
+		
         rep = true;
-        cout << "Por favor no ingrese una instruccion vacia";
-    } else {
-        // Se pasa caracter a mayuscula para trabajarlo eficientemente
-        x[0] = toupper(x.at(0));
-
-        if (x.length() != 1) {
-            rep = true;
-            cout << "Por favor no ingrese mas de 1 digito";
-        } else if (!(isdigit(x.at(0))) and x.at(0) != 'X') {
-            rep = true;
-            cout << "Por favor ingrese un numero de la lista, o la letra X";
-        } else rep = false;
-    }
+		
+    
+	else{
+		
+		rep = false;
+		cout << "Opcion no disponible";
+	}
+	
     return rep;
 }
 
@@ -302,9 +340,16 @@ void limpiarRenglon(int nRenglon) {
 }
 
 void menuJuegos() {
-
-    string P[100], juego = "0", opcion = "no";
-    lectorPalabras(P);
+	
+    string P[110], opcion = "no";
+	char juego;
+	bool flag = true;
+	
+	/*
+	Lectura de archivo
+	almacenamiento en arreglo P
+	*/
+	lectorPalabras(P);
 
     do {
         system("cls");
@@ -318,60 +363,60 @@ void menuJuegos() {
             "3) Numeros en otro idioma\n" <<
             "4) Juego de memoria\n" <<
             "X) A menu principal\n";
-
-        // Se repite menu hasta que se quiera salir del mismo
-        do {
-            // Validacion de input
-
-            limpiarRenglon(10);
-
-            gotoxy(0, 10);
-            getline(cin, juego);
-
-            // Limpia renglon
+		
+        do { // Validacion de input
+            
+            juego = getch();
+			
+            // Aviso ingreso invalido
             limpiarRenglon(12);
-
-            // Avisos ingreso invalido
             gotoxy(0, 12);
-
-        } while (esNroMenuValido(juego));
-
+			
+        } while (!menu_valido(juego) );
+		
         // Abre juego segun lista
-        switch (juego.at(0)) {
+        switch (toupper(juego)) {
+			
         case '1':
             ahorcado(P);
             break;
+			
         case '2':
             palabraCifrada(P);
             break;
+			
         case '3':
             ValidacionDatosNroOtroIdioma();
             break;
+			
         case '4':
-            juego_memoria();
+            juego_memoria(P);
             break;
+			
         case 'X':
-            opcion = volverMenuAnterior(1);
+			// salida
+			flag = false;
             break;
 
-            // Caso de input valido pero imprevisto
+		// nro de juego inexistente
         default:
             gotoxy(0, 12);
             cout << juego << " no es una opcion disponible";
         }
 
-    } while (opcion == "no");
+    } while (flag);
 
     return;
 }
 
 void menu_abecedarios() {
 
-    string opcion, irse = "no";
+    char opcion;
+	bool flag = true;
 
     do {
         system("cls");
-
+		
         cout << "------------------\n" <<
             "|MENU ABECEDARIOS|\n" <<
             "------------------\n" <<
@@ -381,50 +426,54 @@ void menu_abecedarios() {
             "4) Portugues\n" <<
             "5) Frances\n" <<
             "X) Para volver al menu\n" << endl;
-
+		
         do {
-            limpiarRenglon(10);
-
-            gotoxy(0, 10);
-            cout << "Opcion: ";
-            getline(cin, opcion);
-
+			
+            opcion = getch();
+			
             gotoxy(0, 12);
-
-        } while (esNroMenuValido(opcion));
-
-        switch (toupper(opcion.at(0))) {
-
+			
+        } while (!menu_valido(opcion));
+		
+        switch (toupper(opcion)) {
+		
         case '1':
             system("cls");
             abecedario_espaniol();
             break;
-
+		
         case '2':
             system("cls");
             abecedario_ingles();
             break;
-
+		
         case '3':
             system("cls");
             abecedario_italiano();
             break;
-
+		
         case '4':
             system("cls");
             abecedario_portugues();
             break;
-
+		
         case '5':
             system("cls");
             abecedario_frances();
             break;
-
+		
         case 'X':
-            irse = volverMenuAnterior(1);
-        }
+			flag = false;
+			break;
+			
+		default:
+            gotoxy(0, 12);
+            cout << opcion << " no es una opcion disponible";
+        
+		}
+        
 
-    } while (irse == "no");
+    } while (flag);
 
     return;
 }
@@ -457,92 +506,37 @@ bool verificar_si_o_no(string palabra) {
     return valido;
 }
 
+
+
 // Funciones de Juegos
 void lectorPalabras(string P[]) {
 
-    // Se declara string con ubicacion de archivo de texto
+    // Ubicacion de archivo de texto
     string nombre_archivo = "..\\..\\IPA\\doc\\palabras-1.txt";
-
-    // Variables auxiliares
-    string linea;
-    int i = 0;
-    ifstream texto;
+	
+	int i=0;
+	archivo entrada;
 
     // Abre lectura de la ubicacion del archivo txt
-    texto.open(nombre_archivo.c_str());
+    entrada = setup("Arreglo de palabras", nombre_archivo);
+	
 
-    if (texto.fail()) {
-        cout << "fail";
-        abort();
-    }
-
-    while (getline(texto, linea) and i < 100) {
-        /*
-        Copia la linea leida en el arreglo de strings y avanza la proxima 
-        posicion de guardado
-        */
-        P[i] = linea;
-
-        i++;
-
-    };
-
-    // Cierra archivo
-    texto.close();
+    if(!apertura(entrada))
+		cout << "Error en apertura de archivo" << endl;
+		
+	else{
+		bool final=false;
+		do {
+			P[i] = leerLinea(entrada, final);
+			i++;
+		} while (not final);
+	}
 }
 
 int pot(int b, int e) {
     // Calcula potencia recursivamente
     if (e == 0) return 1;
     return b * pot(b, e - 1);
-}
-
-int strToInt(string n) {
-    int N = 0, c = n.size() - 1;
-
-    // Convierte una cadena de caracteres a un numero entero
-    for (int i = c; i >= 0; i--) {
-        switch (n.at(i)) {
-        case '1':
-            N += pot(10, c - i) * 1;
-            break;
-        case '2':
-            N += pot(10, c - i) * 2;
-            break;
-        case '3':
-            N += pot(10, c - i) * 3;
-            break;
-        case '4':
-            N += pot(10, c - i) * 4;
-            break;
-        case '5':
-            N += pot(10, c - i) * 5;
-            break;
-        case '6':
-            N += pot(10, c - i) * 6;
-            break;
-        case '7':
-            N += pot(10, c - i) * 7;
-            break;
-        case '8':
-            N += pot(10, c - i) * 8;
-            break;
-        case '9':
-            N += pot(10, c - i) * 9;
-            break;
-        case '0':
-            N += pot(10, c - i) * 0;
-            break;
-        case '.':
-            i = -1;
-            break;
-        case '-':
-            break;
-        }
-    }
-    if (n.at(0) == '-')
-        N *= -1;
-    return N;
 }
 
 void gotoxy(SHORT x, SHORT y) {
@@ -552,9 +546,10 @@ void gotoxy(SHORT x, SHORT y) {
     };
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cp);
 }
+
 bool esIntentoInval(string letra) {
     /*
-    La funcion devuelve 1 (intento es invelido) si la cadena ingresada es 
+    La funcion devuelve 1 (invalido) si la cadena ingresada es 
     nula, tiene una longitud mayor a un caracter, o no es una letra.
     */
     return (letra.empty() or(letra.length() > 1) or!isalpha(letra.at(0)));
@@ -980,14 +975,13 @@ void resultadoCesar(string Prand, string aux) {
 }
 
 // Memoria
-void juego_memoria() {
+void juego_memoria(string tex[]) {
 
     system("cls");
 
     srand(time(NULL)); // valor semilla para pasarle a la funcion y que busque una palabra en el archivo de texto 
 
-    string tex[100], p_selec[5]; // arreglo de 100 string que guardara las palabras del texto y otro con las 5 seleccionadas 
-    lectorPalabras(tex);
+    string p_selec[5]; // arreglo de 100 string que guardara las palabras del texto y otro con las 5 seleccionadas 
 
     for (int i = 0; i < 5; i++) { // cargo las palabras seleccionadas
 
@@ -1078,7 +1072,7 @@ void juego_memoria() {
         }
         if (valido == false) cout << "No se ingreso una cantidad, por favor reingresar: ";
         else {
-            cant = strToInt(adivinar_cant);
+            cant = stoi(adivinar_cant);
             if (cant < 0) cout << "No se permite el ingreso de cantidades negativas, por favor reingresar: ";
         }
     } while (!valido or cant < 0);
@@ -1284,66 +1278,50 @@ float asignar_puntos(int valor_max, int valor_adivinado, int pts_max) {
 void ValidacionDatosNroOtroIdioma() {
     system("cls");
 
-    string numero, Nroidioma, aumento;
-    bool rep = false;
+	string numero, Nroidioma, aumento;
+	
+	gotoxy(0, 0);
+    cout << "Ingrese un numero de 0 a 9 con el que desee jugar: ";
 
-    cout << "Ingrese un numero de 0 a 9 con el que desee jugar: " << endl;
+    do { // Validacion de numero
+		
+		limpiarRenglon(2);
+		gotoxy(0, 2);
+		
+		getline(cin, numero);
+		
+    } while (numero.size()!=1 or !isdigit(numero.at(0)));
 
-    do { // Validacion de que se ingrese un numero de 0 a 9
-        rep = false;
-        limpiarRenglon(1);
-        gotoxy(0, 1);
-        getline(cin, numero);
-        gotoxy(0, 29); // La funcion de validacion imprime contenido
-        if (esNroMenuValido(numero)) {
-            rep = true;
-            gotoxy(0, 3);
-            cout << "Por favor, ingrese unicamente un numero de un solo digito";
-        }
-        limpiarRenglon(29); // Aqui lo borramos porque no concuerda
-    } while (rep);
-
+	
     gotoxy(0, 5);
-    cout << "Ingrese el idioma en el que quiere ver su numero: " <<
-        endl << "1.- Espa" << char(164) << "ol" << endl <<
-        "2.- Ingles" << endl << "3.- Italiano" << endl <<
-        "4.- Portuges" << endl << "5.- Frances" << endl;
+    cout << "Ingrese el idioma en el que quiere ver su numero: " 
+		<< endl << "1.- Espa" << char(164) << "ol" 
+		<< endl <<"2.- Ingles" 
+		<< endl << "3.- Italiano" 
+		<< endl << "4.- Portuges" 
+		<< endl << "5.- Frances" << endl;
 
-    do {
-        //Validacion de que el numero ingresado sea correspondido a un idioma
-        rep = false;
+    do { // Mientras nro no corresponda a idioma
+		
         limpiarRenglon(12);
         gotoxy(0, 12);
         getline(cin, Nroidioma);
-        gotoxy(0, 29); // La funcion de validacion imprime contenido
-        if (esNroMenuValido(Nroidioma) and(Nroidioma < "1"
-                or Nroidioma > "5")) {
-            rep = true;
-            gotoxy(0, 14);
-            cout << "Por favor, ingrese unicamente un numero de un solo digito" <<
-                " entre 1 y 5";
-        }
-        limpiarRenglon(29); // Aqui lo borramos porque no concuerda
-    } while (Nroidioma < "1"
-        or Nroidioma > "5");
-    gotoxy(0, 16);
-    cout << "Ingrese el aumento con el que desea ver el gr" << (char) 160 << "fico (Debe estar en el rango [1;4]): " << endl;
-    do {
-        // Validacion de que el aumento del grafico este dentro del rango
-        rep = false;
+		
+    } while (aumento.size() != 1 and (Nroidioma < "1" or Nroidioma > "5"));
+	
+	
+    gotoxy(0, 15);
+    cout << "Ingrese el aumento  del gr" << (char) 160 
+		<< "fico (Debe estar en el rango [1;4]): " << endl;
+	
+	
+    do {// Validacion de aumento
+        
         limpiarRenglon(17);
         gotoxy(0, 17);
         getline(cin, aumento);
-        gotoxy(0, 29); // La funcion de validacion imprime contenido
-        if (esNroMenuValido(aumento) and(aumento < "1"
-                or aumento > "4")) {
-            rep = true;
-            gotoxy(0, 19);
-            cout << "Por favor, ingrese unicamente un numero de un solo digito" <<
-                " entre 1 y 4";
-        }
-        limpiarRenglon(29); // Aqui lo borramos porque no concuerda
-    } while (rep);
+		
+    } while (aumento.size() != 1 and (Nroidioma < "1" or Nroidioma > "4"));
 
     NumerosEnOtroIdioma(numero, Nroidioma, aumento);
 }
@@ -1352,7 +1330,8 @@ void NumerosEnOtroIdioma(string imprimir, string lenguaje, string aum) { // Esta
     char n = 164;
     string idioma;
 
-    int numero = strToInt(imprimir), Nroidioma = strToInt(lenguaje), aumento = strToInt(aum);
+    int numero = stoi(imprimir), Nroidioma = stoi(lenguaje);
+	int aumento = stoi(aum);
 
     if (Nroidioma == 1) {
         idioma = "Espa ol";

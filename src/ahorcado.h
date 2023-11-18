@@ -4,7 +4,9 @@
 #include <string>
 using namespace std;
 
+void ahorcado(string P[]);
 int reemplazoAhorcado(const string Prand, string & aux, string letra);
+void cartelesIntentos(int avisoIntento, string letra, string ultimoIntento, int fila);
 void dibujarMonigote(string aux, int errores);
 void resultadoAhorcado(int errores, string Prand);
 void imprimirBase();

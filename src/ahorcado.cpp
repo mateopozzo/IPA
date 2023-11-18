@@ -2,8 +2,85 @@
 #include "fgrales.h"
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 using namespace std;
 
+//Ahorcado
+void ahorcado(string P[]) {
+	
+	system("cls");
+    srand(time(NULL));
+
+    // Declaracion Variables
+    // El string Prand guarda una palabra aleatoria de las 100 del archivo txt
+    string Prand = P[rand() % 100];
+    string letra, aux, intentos, ultimoIntento;
+    int errores = 0, yaIntentada = 0;
+	
+	// Se imprime base y titulo por unica vez
+	gotoxy(40, 0);
+    cout << "AHORCADO";
+	imprimirBase();
+
+    // Crea cadena de guiones bajos
+    for (int i = 0; unsigned(i) < Prand.length(); i++)
+        aux += "_";
+
+    do {
+
+        /*
+        Repetir mientras la cantidad de errores sea menor a 6
+        y no se haya adivinado la palabra
+        */
+        do {
+			// Validacion de entrada
+			
+            dibujarMonigote(aux, errores);
+			
+            cartelesIntentos(yaIntentada, letra, ultimoIntento, 27);
+			
+			limpiarRenglon(25);
+            gotoxy(34, 25);
+            cout << "Ingresa letra: ";
+            getline(cin, letra);
+			
+            // El comentario de letra ya intentada se evita sobreescribir
+            yaIntentada = 0;
+			
+        } while (esIntentoInval(letra));
+		
+		
+        letra[0] = tolower(letra[0]);
+		
+        /*
+        Si la letra ya fue intentada, se activa bandera de aviso y se guarda 
+		para imprimirla, sino, se envia el intento del usuario a la funcion de 
+        reemplazo, se concatena la letra del intento al final de la variable 
+		intentos, y se anula la bandera de aviso
+        */
+		
+        if (intentos.find(letra) != -1) {
+			
+            yaIntentada = 1;
+            ultimoIntento = letra.at(0);
+        } 
+		else {
+			
+            errores += reemplazoAhorcado(Prand, aux, letra);
+            intentos += letra.at(0);
+            yaIntentada = 0;
+        }
+		
+    } while (errores < 6 and Prand != aux);
+
+    // Se imprime una vez mas para mostrar la palabra completa en caso de derrota
+    dibujarMonigote(aux, errores);
+
+    // Anuncio de resultado
+    resultadoAhorcado(errores, Prand);
+	
+	return;
+}
 
 int reemplazoAhorcado(const string Prand, string & aux, string letra) {
 

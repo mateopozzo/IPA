@@ -2,12 +2,15 @@
 #include "fgrales.h"
 #include "login.h"
 #include "archivo.h"
-#include "juegos.h"
 #include "abecedarios.h"
 #include <iostream>
 #include <cstdlib>#include <conio.h>
 #include <string>
 #include <cctype>
+#include "ahorcado.h"
+#include "pcifrada.h"
+#include "noidm.h"
+#include "memoria.h"
 using namespace std;
 
 // Funciones de menu
@@ -15,10 +18,13 @@ using namespace std;
 void bienvenida() {
 
     logo();
-
-    if (getch())
-        ValidacionID();
-    
+	char c;
+	
+    while ((c = getch()) != 13);
+	
+	ValidacionID();
+	
+	return;
 }
 
 void logo() {
@@ -162,7 +168,7 @@ void menuPpal() {
 			
         } while (!menu_valido(opcion_user));
 		
-        switch (opcion_user) {
+        switch (toupper(opcion_user)) {
 		
         case '1':
             system("cls");
@@ -191,7 +197,7 @@ void lectorPalabras(string P[]) {
 	
 	int i=0;
 	archivo entrada;
-
+	
     // Abre lectura de la ubicacion del archivo txt
     entrada = setup("Arreglo de palabras", nombre_archivo);
 	

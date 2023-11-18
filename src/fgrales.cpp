@@ -47,3 +47,10 @@ void pasar_minusculas(string & palabra) {
     }
     return;
 }
+
+bool esIntentoInval(string letra) {
+    /*
+    Es una sola letra 
+    */
+    return (letra.length() != 1 or !isalpha(letra.at(0)));
+}

@@ -8,7 +8,7 @@ using namespace std;
 
 void ValidacionID() {
 	// Si se le ingresa un numero de legajo valido, esta genera una contraseña
-    system("cls");
+	system("cls");
 
     bool flagNumero;
     int legajo;
@@ -21,13 +21,21 @@ void ValidacionID() {
 	
     do { // Validacion del numero de legajo.
 
-        flagNumero = true;
+        flagNumero = false;
 		
         limpiarRenglon(7);
         gotoxy(47, 7);
         getline(cin, legajoS);
 		
-        int i = 0, tam = legajoS.size();
+		
+        int i = 0, tam;
+		
+		if(!legajoS.empty()){
+			tam = legajoS.size();
+			
+			if(tam == 5)
+				flagNumero = true;
+		}
 		
         while (flagNumero and i < tam) {
 			
@@ -55,6 +63,8 @@ void ValidacionID() {
 		
 		
 	} while (!dentroDeRango);
+	
+	limpiarRenglon(8);
     
 	generarID(legajo, ID);
     ValidacionContrasenia(ID);
@@ -90,20 +100,26 @@ void Ingresarcontrasenia(char Clave[]) {
     // Permite ingresar la contraseña y en pantalla se la muestra oculta (a traves de asteriscos)
     int i = 0;
 	bool flag = true;
+	char aux = '\0';
 
 	do {
         
-		Clave[i] = getch();
+		aux = getch();
 		
-		if(Clave[i] == (char) 13)
+		if(aux == 13)
 			flag = false;
 		
 		
-		else if (Clave[i] != 8){// no es retroceso
+		else if (aux != 8){// no es retroceso
 			
             cout << '*'; // muestra por pantalla
 			
-			i++;	
+			if(i<10)
+				Clave[i] = aux;
+			
+			i++;
+			
+			
         } 
 		
 		else if (i > 0) {// es retroceso y hay caracteres
@@ -115,14 +131,17 @@ void Ingresarcontrasenia(char Clave[]) {
 		
     } while (flag);
 	
-	Clave[5] = '\0';
+	if(i<10)
+		Clave[i] = '\0';
+	else 
+		Clave[10] = '\0';
 }
 
 void ValidacionContrasenia(int ID[]) { // Esta funcion valida la contraseña
 	
     int intentos = 0, i = 4;
     bool esValida = false;
-    char contrasenia[6], claveReal[6];
+    char contrasenia[10], claveReal[6];
 	
 	// Convierte ID numerico a una cadena
     convertirIDAchar(ID, claveReal, i); 
@@ -139,20 +158,21 @@ void ValidacionContrasenia(int ID[]) { // Esta funcion valida la contraseña
         limpiarRenglon(12);
 		
         gotoxy(47, 12);
+		
         Ingresarcontrasenia(contrasenia);
 		
-        if (strstr(claveReal, contrasenia) != NULL) 
+        if(!strcmp(claveReal, contrasenia)) 
            
 			esValida = true;
         
 		
 		else {
 			
-            gotoxy((100 - 63) / 2, 13);
+            gotoxy(25, 13);
 			
             if (intentos < 2) 
 				cout << "Contrase" << char(164) << "a incorrecta. "
-				<< "Por favor ingrese" << endl;
+				<< "Por favor ingresar nuevamente" << endl;
 			
             intentos++;
         }

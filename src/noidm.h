@@ -4,7 +4,8 @@
 #include <string>
 using namespace std;
 
-void NumerosEnOtroIdioma(string num, string Nroid, string aum);
+void numeros_otro_idioma();
+void derivador_noidm(string num, string Nroid, string aum);
 void mostrarEspaniol (const int numero);
 void mostrarIngles (const int numero);
 void mostrarItaliano (const int numero);

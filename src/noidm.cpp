@@ -1,9 +1,67 @@
 #include "noidm.h"
+#include "fgrales.h"
+#include <conio.h>
 #include <iostream>
 using namespace std;
 
+// Numeros en otro idioma
+void numeros_otro_idioma() {
+    system("cls");
 
-void NumerosEnOtroIdioma(string imprimir, string lenguaje, string aum) { // Esta es la funcion general que segun el numero, idioma y aumento, 				muestra lo debido
+	string numero, Nroidioma, aumento;
+	
+	gotoxy(0, 0);
+    cout << "Ingrese un numero de 0 a 9 con el que desee jugar: ";
+
+    do { // Validacion de numero
+		
+		limpiarRenglon(2);
+		gotoxy(0, 2);
+		
+		getline(cin, numero);
+		
+    } while (numero.size()!=1 or !isdigit(numero.at(0)));
+
+	
+    gotoxy(0, 5);
+    cout << "Ingrese el idioma en el que quiere ver su numero: " 
+		<< endl << "1.- Espa" << char(164) << "ol" 
+		<< endl <<"2.- Ingles" 
+		<< endl << "3.- Italiano" 
+		<< endl << "4.- Portuges" 
+		<< endl << "5.- Frances" << endl;
+
+    do { // Mientras nro no corresponda a idioma
+		
+        limpiarRenglon(12);
+        gotoxy(0, 12);
+        getline(cin, Nroidioma);
+		
+    } while (Nroidioma.size() != 1 || Nroidioma < "1" || Nroidioma > "5");
+	
+	
+    gotoxy(0, 15);
+    cout << "Ingrese el aumento  del gr" << (char) 160 
+		<< "fico (Debe estar en el rango [1;4]): " << endl;
+	
+	
+    do {// Validacion de aumento
+        
+        limpiarRenglon(17);
+        gotoxy(0, 17);
+        getline(cin, aumento);
+		
+    } while (aumento.size() != 1 || aumento.at(0) < '1' || aumento.at(0) > '4');
+
+    derivador_noidm(numero, Nroidioma, aumento);
+	
+	return ;
+}
+
+
+void derivador_noidm(string imprimir, string lenguaje, string aum) { 
+	
+	// ingreso de numero, idioma y aumento
     char n = 164;
     string idioma;
 
@@ -23,6 +81,15 @@ void NumerosEnOtroIdioma(string imprimir, string lenguaje, string aum) { // Esta
     mostrarEscrito(numero, Nroidioma);
     cout << "Gr" << (char) 160 << "fico: " << endl;
     mostrarGrafico(numero, aumento);
+	
+	cout << "\n\nPresione enter para salir" << endl;
+	
+    char c;
+	do{
+		c = getch();
+	} while(c != 13);
+	
+    return;
 
 }
 
@@ -192,8 +259,9 @@ void mostrarFrances(const int numero) {
         cout << "Neuf" << endl;
     }
 }
+
 void mostrarEscrito(const int numero, const int Nroidioma) { 
-	// Esta funcion es llamada por la general y meustra el numero de manera escrita en el idioma que corresponde
+	// funcion es llamada por la derivadora escribe nro en el idioma correspondiente
     if (Nroidioma == 1) mostrarEspaniol(numero);
     else if (Nroidioma == 2) mostrarIngles(numero);
     else if (Nroidioma == 3) mostrarItaliano(numero);
@@ -390,6 +458,7 @@ void graficoOcho(int aumento) {
         cout << " -";
     }
 }
+
 void graficoNueve(int aumento) {
     for (int i = 0; i < aumento; i++) {
         cout << " -";
@@ -406,6 +475,7 @@ void graficoNueve(int aumento) {
         cout << " -";
     }
     cout << endl;
+	
     for (int i = 0; i < aumento; i++) {
         //cout<<" ";
         for (int i = 0; i < aumento * 2; i++) {
@@ -418,8 +488,9 @@ void graficoNueve(int aumento) {
     }
 }
 
-void mostrarGrafico(const int numero,
-    const int aumento) { //Esta funcion es llamada por la funcon general y meusrra el numero  en el idioma que corresponde y el grafico del numero con el aumento pedido
+void mostrarGrafico(const int numero, const int aumento) { 
+	//Esta funcion es llamada por la derivadora y muestra el numero en el
+	// idioma que corresponde y el grafico del numero con el aumento pedido
     if (numero == 0) graficoCero(aumento);
     else if (numero == 1) graficoUno(aumento);
     else if (numero == 2) graficoDos(aumento);
@@ -430,10 +501,7 @@ void mostrarGrafico(const int numero,
     else if (numero == 7) graficoSiete(aumento);
     else if (numero == 8) graficoOcho(aumento);
     else if (numero == 9) graficoNueve(aumento);
-
-    cin.ignore();
-    do {
-        cout << endl << "Ingrese enter para continuar" << endl;
-    } while ((cin.get() != '\n'));
+	
+	return ;
 }
 

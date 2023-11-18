@@ -1,4 +1,5 @@
 #include "abecedarios.h"
+#include <conio.h>
 #include <iostream>
 using namespace std;
 
@@ -27,12 +28,17 @@ void abecedario_espaniol() {
     cout << "-----------------------\n" <<
         "|Minusculas Acentuadas|\n" <<
         "-----------------------" << endl;
-    cout << (char) 160 << " " << (char) 130 << " " << (char) 161 << " " << (char) 162 << " " << (char) 163 << endl;
+    cout << (char) 160 << " " << (char) 130 << " " 
+		<< (char) 161 << " " << (char) 162 << " "
+		<< (char) 163 << " " << (char)129 << endl;
 
-    do {
-        cout << "\nPresione enter para volver al menu abecedarios";
-    } while (cin.get() != '\n');
-
+    cout << "\nPresione enter para volver al menu abecedarios";
+	
+	char c;
+	do{
+		c = getch();
+	} while(c != 13);
+	
     return;
 }
 
@@ -62,10 +68,13 @@ void abecedario_ingles() {
         "-----------------------" << endl;
     cout << "Este idioma no posee acentos" << endl;
 
-    do {
-        cout << "\nPresione enter para volver al menu abecedarios";
-    } while (cin.get() != '\n');
-
+    cout << "\nPresione enter para volver al menu abecedarios";
+	
+	char c;
+	do{
+		c = getch();
+	} while(c != 13);
+	
     return;
 }
 
@@ -95,10 +104,13 @@ void abecedario_italiano() {
         "-----------------------" << endl;
     cout << (char) 133 << " " << (char) 130 << " " << (char) 138 << " " << (char) 141 << " " << (char) 149 << " " << (char) 151 << endl;
 
-    do {
-        cout << "\nPresione enter para volver al menu abecedarios";
-    } while (cin.get() != '\n');
-
+    cout << "\nPresione enter para volver al menu abecedarios";
+	
+	char c;
+	do{
+		c = getch();
+	} while(c != 13);
+	
     return;
 }
 
@@ -126,12 +138,21 @@ void abecedario_portugues() {
     cout << "-----------------------\n" <<
         "|Minusculas Acentuadas|\n" <<
         "-----------------------" << endl;
-    cout << (char) 160 << " " << (char) 133 << " " << (char) 131 << " " << (char) 130 << " " << (char) 136 << " " << (char) 161 << " " << (char) 162 << " " << (char) 147 << " " << (char) 163 << " " << (char) 128 << endl;
+    cout << (char) 160 << " " << (char) 133 << " " 
+		<< (char) 131 << " " << (char) 198 << " " 
+		<<(char) 135 << " " << (char) 130 << " " 
+		<< (char) 136 << " " << (char) 161 << " " 
+		<< (char) 162 << " " << (char) 147 << " " 
+		<< (char) 228 << " " << (char) 163 << " " 
+		<<  endl;
 
-    do {
-        cout << "\nPresione enter para volver al menu abecedarios";
-    } while (cin.get() != '\n');
-
+    cout << "\nPresione enter para volver al menu abecedarios";
+	
+	char c;
+	do{
+		c = getch();
+	} while(c != 13);
+	
     return;
 }
 
@@ -159,12 +180,23 @@ void abecedario_frances() {
     cout << "-----------------------\n" <<
         "|Minusculas Acentuadas|\n" <<
         "-----------------------" << endl;
-    cout << (char) 133 << " " << (char) 131 << " " << (char) 130 << " " << (char) 138 << " " << (char) 136 << " " << (char) 137 << " " << (char) 140 << " " << (char) 139 << " " << (char) 147 << " " << (char) 148 << " " << (char) 151 << " " << (char) 150 << " " << (char) 152 << endl;
+    cout << (char) 133 << " " << (char) 131 << " "
+		<< (char) 145 << " " << (char) 135 << " "
+		<< (char) 130 << " " << (char) 138 << " "
+		<< (char) 136 << " " << (char) 137 << " " 
+		<< (char) 140 << " " << (char) 139 << endl
+		<< (char) 147 << " " << (char) 148 << " " 
+		<< (char) 151 << " " << (char) 150 << " " 
+		<< (char) 129 << " " << (char) 152 << endl;
 
-    do {
-        cout << "\nPresione enter para volver al menu abecedarios";
-    } while (cin.get() != '\n');
-
+    
+	cout << "\nPresione enter para volver al menu abecedarios";
+	
+	char c;
+	do{
+		c = getch();
+	} while(c != 13);
+	
     return;
 }
 

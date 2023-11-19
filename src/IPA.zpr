@@ -14,6 +14,7 @@ tab_width=4
 tab_use_spaces=0
 explorer_path=.
 inherits_from=
+current_source=memoria.cpp
 path_char=\
 [source]
 path=main.cpp
@@ -38,7 +39,8 @@ path=pcifrada.cpp
 cursor=61:28
 [source]
 path=memoria.cpp
-cursor=57:34
+cursor=115:9
+open=true
 [source]
 path=noidm.cpp
 cursor=59:0

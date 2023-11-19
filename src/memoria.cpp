@@ -48,7 +48,7 @@ void juego_memoria(string tex[]) {
 	int cant_mas_repet = 0, frecuencia_alter = 0;
     char letra_mas_repe, letra_usuario; // variable para que el usuario ingrese la letra que mas se repite
 	string ingreso_letra;
-	bool aviso_letra = false;
+	bool aviso_letra;
 	
 	cout << "Ingrese la Letra mas Repetida: "; 
 	
@@ -106,16 +106,16 @@ void juego_memoria(string tex[]) {
         cin >> ws;
         getline(cin, adivinar_cant);
         int h = 0, tam = adivinar_cant.size();
-        valido = true;
+        valido = (tam < 8); // Solo puede ser valido si ingresa un numero almacenable en un int
 		
         while (valido and h < tam) { // valido que el string represente numeros
-            if ((adivinar_cant[h] >= 'a' and adivinar_cant[h] <= 'z') or (adivinar_cant[h] >= 'A' and adivinar_cant[h] <= 'Z')) 
+			if ( isalpha(adivinar_cant.at(h)) ) 
 				valido = false;
 			
             h++;
         }
 		
-        if (valido == false) cout << "No se ingreso una cantidad, por favor reingresar: ";
+        if (valido == false) cout << "No se ingreso una cantidad valida, por favor reingresar: ";
 		
         else {
             cant = stoi(adivinar_cant);

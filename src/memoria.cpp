@@ -34,14 +34,14 @@ void juego_memoria(string tex[]) {
     Sleep(2000); // hace una pausa de 2 seg
     system("cls"); // limpia la pantalla 
 
-    cout << "?QUE COMIENCE EL JUEGO!" << endl;
+    cout << (char) 173 << "QUE COMIENCE EL JUEGO!" << endl;
 
     /*PARTE A: El usuario debe identificar la letra que mas se repite en cada palabra. 
     Puntos maximos a obtener = 30. Por cada letra acertada, se suman 6 puntos en esta primera
     parte. En el caso de que una palabra tenga 2 o mas letras con la misma cantidad, se considera
     correcta aquella que se encuentra en la posicion mas cercana al inicio de la palabra*/
 
-	// modificado por franco el 17-11-23 
+	// modificado por franco el 18-11-23 
     cout << "\n----- PARTE A -----" << endl;
 
     float puntos_a = 0.0;
@@ -55,7 +55,8 @@ void juego_memoria(string tex[]) {
 	do{
 		getline(cin, ingreso_letra); 
 		
-		if(ingreso_letra.size()!=1 or isalpha(ingreso_letra.at(0))){
+		if(ingreso_letra.size()!=1 or !isalpha(ingreso_letra.at(0))){
+			
 			aviso_letra = true;
 			
 			cout << "Ingrese unicamente una letra" << endl;
@@ -74,7 +75,7 @@ void juego_memoria(string tex[]) {
 	else{
 		
 		frecuencia_alter = frecuencia_letra(p_selec, 5, letra_usuario); 
-		puntos_a = ((float)frecuencia_alter*100.0)/(float)cant_mas_repet;
+		puntos_a = ((float)frecuencia_alter*30.0)/(float)cant_mas_repet;
 	}
 
     /*PARTE B: El usuario debe colocar la cantidad de vocales que hay entre las cinco palabras.
@@ -164,7 +165,7 @@ void juego_memoria(string tex[]) {
     }
 
     cout << "\n----- RESULTADOS -----\n" <<
-        "PUNTOS EN A: " << puntos_a << "\n" <<
+        "PUNTOS EN A: " << fixed << setprecision(2) << puntos_a << "\n" <<
         "PUNTOS EN B: " << fixed << setprecision(2) << puntos_b << "\n" <<
         "PUNTOS EN C: " << puntos_c << "\n\n" <<
         "-------------------------\n" <<
@@ -288,7 +289,7 @@ char mas_repetida(const string vec[], int t, int& sum) {
 			pos_max = pos;
 		}
 	}
-	sum = cont; 
+	sum = max; 
 	return palabra[pos_max];
 }
 

@@ -1,5 +1,8 @@
 #include "menues.h"
+#include "libro.h"
+#include <conio.h>
 #include <cstdlib>
+
 using namespace std;
 
 int main() {

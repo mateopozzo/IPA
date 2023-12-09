@@ -3,14 +3,16 @@
 #include "login.h"
 #include "archivo.h"
 #include "abecedarios.h"
-#include <iostream>
-#include <cstdlib>#include <conio.h>
-#include <string>
-#include <cctype>
 #include "ahorcado.h"
 #include "pcifrada.h"
 #include "noidm.h"
 #include "memoria.h"
+#include "prcdtexto.h"
+#include <iostream>
+#include <cstdlib>
+#include <conio.h>
+#include <string>
+#include <cctype>
 using namespace std;
 
 // Funciones de menu
@@ -20,7 +22,7 @@ void bienvenida() {
     logo();
 	char c;
 	
-    while ((c = getch()) != 13);
+    while((c = getch()) != 13);
 	
 	ValidacionID();
 	
@@ -136,9 +138,9 @@ bool menu_valido(char c) {
 		
     
 	else{
-		
 		rep = false;
-		cout << "Opcion no disponible";
+		
+		cout << "Opcion no disponible\n";
 	}
 	
     return rep;
@@ -159,6 +161,7 @@ void menuPpal() {
             "----------------\n" <<
             "1) Abecedarios\n" <<
             "2) Juegos\n" <<
+			"3) Procesador de texto\n"
             "X) Salir de App\n" << endl;
 		
 		
@@ -177,7 +180,12 @@ void menuPpal() {
 		
         case '2':
             system("cls");
-            menuJuegos();
+            menu_juegos();
+            break;
+			
+		case '3':
+            system("cls");
+            menu_procesador_texto();
             break;
 		
         case 'X':
@@ -214,7 +222,7 @@ void lectorPalabras(string P[]) {
 	}
 }
 
-void menuJuegos() {
+void menu_juegos(){
 	
     string P[110], opcion = "no";
 	char juego;
@@ -228,7 +236,6 @@ void menuJuegos() {
 
     do {
         system("cls");
-
         gotoxy(0, 0);
         cout << "----------------\n" <<
             "|MENU DE JUEGOS|\n" <<
@@ -347,6 +354,46 @@ void menu_abecedarios() {
         
 		}
         
+    } while (flag);
+
+    return;
+}
+
+void menu_procesador_texto(){
+	char opcion;
+	bool flag = true;
+	
+	do{
+		system("cls");
+		cout << "--------------------------\n" <<
+			"|MENU PROCESADOR DE TEXTO|\n" <<
+			"--------------------------\n" <<
+			"1) Estadisticas a nivel de caracteres\n" <<
+			"2) Estadisticas a nivel de palabras\n" <<
+			"X) Volver al menu principal\n" << endl;
+		
+		do {
+			opcion = getch();
+			gotoxy(0, 12);
+		} while (!menu_valido(opcion));
+		
+		switch (toupper(opcion)) {
+		case '1':
+			system("cls");
+			seleccion_libro(1);
+			break;
+		case '2':
+			system("cls");
+			seleccion_libro(2);
+			break;
+		case 'X':
+			flag = false;
+			break;
+		default:
+			gotoxy(0, 12);
+			cout << opcion << " no es una opcion disponible";
+		}
+		
     } while (flag);
 
     return;

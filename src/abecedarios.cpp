@@ -1,11 +1,12 @@
 #include "abecedarios.h"
 #include <conio.h>
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 // Funciones abecedarios
 void abecedario_espaniol() {
-
+	
     // Alfabeto en minusculas
     cout << "------------------------\n" <<
         "|Alfabeto en minusculas|\n" <<
@@ -80,6 +81,8 @@ void abecedario_ingles() {
 
 void abecedario_italiano() {
 
+	system("chcp 437");
+	
     // Alfabeto en minusculas
     cout << "------------------------\n" <<
         "|Alfabeto en minusculas|\n" <<

@@ -18,18 +18,20 @@ using namespace std;
 // Funciones de menu
 
 void bienvenida() {
-
+	
     logo();
 	char c;
 	
     while((c = getch()) != 13);
 	
-	ValidacionID();
+	login();
 	
 	return;
 }
 
 void logo() {
+	
+	system("cls");	//	Limpia consola
 
     system("color F0"); // Fondo negro y texto verde
 
@@ -87,9 +89,9 @@ bool cierre_app() {
 	
 	// Alerta previa cerrar app
 	cout << char(168) 
-		<< "ESTAS SEGURO DE ABANDONAR?" <<
+		<< "ESTAS SEGURO DE ABANDONAR?\n" <<
 		"Escribe 'SI' si estas seguro\n" <<
-		"'NO' para volver al menu" << endl;
+		"Escribe 'NO' para volver al menu" << endl;
 	
 
     do {

@@ -2,13 +2,14 @@
 #include "fgrales.h"
 #include "palabra.h"
 #include "archivo.h"
-#include <wchar.h>
 #include <conio.h>
 #include <cctype>
 #include <iostream>
 #include <string>
 #include <cstring>
 #include <iomanip>
+#include <cmath>
+
 using namespace std;
 
 Libro arreglo_libros[2];
@@ -17,8 +18,10 @@ void estadisticas_tabla_frecuencia(Libro &);
 void estadisticas_nivel_palabras(Libro &);
 bool analisis(int ** ptr_mtrz, int plb_mayor, float & promedio, float & vocales_prc, float & consonantes_prc);
 string aminusq(string);
+void matriz_iniciales_imprimir(int **, int);
 
-void seleccion_libro(int opcion){
+void
+seleccion_libro(int opcion){
 	
 	/*	El usuario setea que libro quiere estudiar estadisticamente entre un maximo de diez	*/
 	
@@ -50,12 +53,13 @@ void seleccion_libro(int opcion){
 		case '1':
 		case '2':
 			nlibro = int(SWITCH - '1');
-			system("cls");
+			system("chcp 1252"); // Asegura que la consola del usuario tenga codepage latina
 			libro_iniciar_archivo(arreglo_libros[nlibro]);
 			if(opcion == 1)
 				estadisticas_tabla_frecuencia(arreglo_libros[nlibro]);
 			else 
 				estadisticas_nivel_palabras(arreglo_libros[nlibro]);
+			system("chcp 850");	//	Devuelve la consola a codepage ASCII
 			break;
 		case 'x':
 		case 'X':
@@ -66,7 +70,10 @@ void seleccion_libro(int opcion){
 	return; 
 }
 
-void estadisticas_tabla_frecuencia(Libro & libro){
+void
+estadisticas_tabla_frecuencia(Libro & libro){
+	
+	system("cls");
 	
 	/*	Calcula la cantidad de apariciones de cada caracter presente en el libro y finalmente muestra por pantalla la cantidad en forma descendente*/
 	cout << libro_titulo(libro) << endl;
@@ -127,7 +134,7 @@ void estadisticas_tabla_frecuencia(Libro & libro){
 		string linea_cargar;
 		
 		int pos_mayor;
-		string archivo_estadistica_direccion = "..\\doc\\estadisticas\\" + libro_titulo(libro) + " frecuencias.txt";
+		string archivo_estadistica_direccion = "..\\doc\\estadisticas\\" + libro_titulo(libro) + "\\frecuencia.txt";
 		
 		if(archivo_setup_escritura(archivo_estadistica_direccion.c_str()))	archivo_cargar_linea("TABLA DE FRECUENCIAS\n\nApariciones\tCaracter\n\n");
 		
@@ -175,19 +182,21 @@ void estadisticas_tabla_frecuencia(Libro & libro){
 }
 
 
-
-
-void estadisticas_nivel_palabras(Libro & libro){
+void
+estadisticas_nivel_palabras(Libro & libro)
+{
+	system("cls");
 	
-	/*	Creacion de matriz de [largo, caracter incial], el analisis de frecuencia de letras nos permitio descubrir que no existe palabra en los libros que comience
+	/*	Creacion de matriz de [largo, caracter incial, el analisis de frecuencia de letras nos permitio descubrir que no existe palabra en los libros que comience
 		con un caracter acentuado o especial, esto se tuvo en cuenta al desarrollar el tamaño de la matriz	*/
 	
 	cout << libro_titulo(libro) << "\nLeyendo...";
 	
-	const string alfabeto_italiano = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const string alfabeto_italiano = "aäbcdefghijklmnoöpqrstuvwxyzAÄBCDEFGHIJKLMNOÖPQRSTUVWXYZ";
 	string linea, palabra;
 	int plb_inicio, plb_final, plb_mayor = 10, plb_tam, i, j;
-	int ** ptr_mtrz = ( int ** ) malloc( sizeof ( int* ) * 10 );    //	puntero "maestro" a la matriz, apunta a un arreglo de punteros que apuntan a arreglo de 26 enteros, lo incializo en 10 filas pero esta cantidad puede aumantar
+	int ** ptr_mtrz = ( int** ) malloc( sizeof ( int* ) * 10 );  
+	PtrNodoPalabra lista_dinamica_palabras = NULL;
 	
 	if(ptr_mtrz == NULL){
 		cout << "Fallo" << endl;
@@ -195,7 +204,7 @@ void estadisticas_nivel_palabras(Libro & libro){
 	}
 	
 	else {
-		PtrNodoPalabra lista_dinamica_palabras = lista_palabra_crear();
+		lista_dinamica_palabras = lista_palabra_crear();
 		
 		for( i = 0; i < 10; i++){
 			ptr_mtrz[i] = (int*) malloc( sizeof(int) * 26 );
@@ -255,39 +264,56 @@ void estadisticas_nivel_palabras(Libro & libro){
 			
 		}
 		
+		/*	impresion de matriz	*/
+		
+		matriz_iniciales_imprimir(ptr_mtrz, plb_mayor);
+		cout << libro_titulo(libro) << "\n";
+		
 		/*	Ordenamiento de la lista enlazada	*/
 		printf("\nOrdenando apariciones...\n");
 		lista_palabra_iniciar_ms(lista_dinamica_palabras);
 		
 		float promedio, vocales_prc, consonantes_prc;
 		string cargar_palabra;
+		bool validacion;
 		
 		/*	Se llama a la funcion de calculo de porcentajes y se muestran estadisticas en pantalla	*/
 		if(analisis(ptr_mtrz, plb_mayor, promedio, vocales_prc, consonantes_prc)){
-			cout << endl << fixed << setprecision(2) << "Promedio de longitud: " << promedio << "\n\n";
+			cout << endl << fixed << setprecision(0) << "Promedio de longitud: " << promedio << "\n\n";
 			
 			string c;
 			
 			cout << "Mostrar 5 mas comunes que empiezan con: ";
 			do{
+				gotoxy(42,6);
 				cin >> c;
-			}while( c.length() != 1 or !isalpha(c.at(0)) );
+				validacion = c.length() != 1 or !isalpha(c.at(0));
+				
+				if(validacion){
+					cout << "Letra no valida\n";
+					gotoxy(42,6);
+					cout << " ";
+				}
+				
+			}while( validacion );
 			lista_palabra_frecuencia(lista_dinamica_palabras, c.at(0));
 			
-			cout << endl << "Porcentaje de vocales: " << vocales_prc << endl
-				 << "Porcentaje de consonantes: " << consonantes_prc << endl;
+			cout << endl << "Porcentaje de vocales: " << vocales_prc << "%" << endl
+				 << "Porcentaje de consonantes: " << consonantes_prc << "%" << endl;
 			
 			string aux;
 			aux = toupper(c.at(0));
-			string archivo_palabrax = "..\\doc\\estadisticas\\" + libro_titulo(libro) + " palabra" + aux +".txt";
+			string archivo_palabrax = "..\\doc\\estadisticas\\" + libro_titulo(libro) + "\\palabra" + aux +".txt";
 			
-			archivo_setup_escritura(archivo_palabrax.c_str());
-			
-			while( lista_dinamica_palabras != NULL ){
-				cargar_palabra = nodo_palabra_siguiente(lista_dinamica_palabras);
-				if( tolower(cargar_palabra.at(0)) == tolower(c.at(0)) )
-					archivo_cargar_linea(cargar_palabra + "\n");
+			if(archivo_setup_escritura(archivo_palabrax.c_str())){
+				while( lista_dinamica_palabras != NULL ){
+					cargar_palabra = nodo_palabra_siguiente(lista_dinamica_palabras);
+					if( tolower(cargar_palabra.at(0)) == tolower(c.at(0)) )
+						archivo_cargar_linea(cargar_palabra + "\n");
+				}
 			}
+			
+			else cout << "No se pudo abrir el path: " + archivo_palabrax << endl;
 			
 		}
 	
@@ -299,10 +325,21 @@ void estadisticas_nivel_palabras(Libro & libro){
 		c = getch();
 	} while( c != 13);
 	
+	printf("Borrando archivos basura...\n");
+	
+	archivo_cerrar_escritura();
+	delete[] ptr_mtrz;
+	ptr_mtrz = NULL;
+	lista_palabra_destruir(&lista_dinamica_palabras);
+	lista_dinamica_palabras = NULL;
+	libro_finalizar_archivo();
+	
 	return;
 }
 	
-bool analisis(int ** ptr_mtrz, int plb_mayor, float & promedio, float & vocales_prc, float & consonantes_prc){
+bool
+analisis
+(int ** ptr_mtrz, int plb_mayor, float & promedio, float & vocales_prc, float & consonantes_prc){
 	
 	/*	Calculo de longitud promedio, porcentaje de vocales y consonantes del libro elegido	*/
 	
@@ -329,7 +366,7 @@ bool analisis(int ** ptr_mtrz, int plb_mayor, float & promedio, float & vocales_
 		vocales_prc = (float) vocales_tot / (consonantes_tot + vocales_tot) * 100.0;
 		consonantes_prc = (float) consonantes_tot / (consonantes_tot + vocales_tot) * 100.0;
 		
-		promedio = promedio / (float)(vocales_tot + consonantes_tot);
+		promedio = ceil( promedio / (float)(vocales_tot + consonantes_tot));
 	}
 
 	else printf("No se puede calcular el promedio\n");
@@ -338,8 +375,9 @@ bool analisis(int ** ptr_mtrz, int plb_mayor, float & promedio, float & vocales_
 }
 	
 	
-string aminusq(string palabra){
-	
+string
+aminusq(string palabra)
+{	
 	/*	Del estudio de frecuencia de caracteres se concluyo que la cantidad de caracteres especiales como Ä en mayuscula es nulo, esta funcion convierte
 		una cadena con mayusculas en una completamente minusculas salteandose los caracteres que no se pueden transformar utilizando tolower()	*/
 	
@@ -354,18 +392,42 @@ string aminusq(string palabra){
 	}
 	
 	return palabra;
-	
 }
 
+void
+matriz_iniciales_imprimir(int **ptr_mtrz, int largo_max)
+{	
+	system("cls");
+	system("mode con: cols=200 lines=30");
 	
-/*
-void prueba(){
+	gotoxy(0, 0);
+	int i, j;
 	
-	wstring a;
+	printf("Matriz de inciales\n");
 	
-	while(libro_leer_linea(a)){
-		wprintf(L"%s\n", a.c_str());
+	for( i=0; i<26; i++ ){
+		gotoxy(4+i*6, 2);
+		printf("%c", ('a'+i));
 	}
+	printf("\n");
 	
+	for( i=0; i<largo_max; i++ ){
+		gotoxy(0, 3+i);
+		printf("%d", i+1);
+		for(j=0; j<26; j++){
+			gotoxy(4+j*6, 3+i);
+			printf("%d", ptr_mtrz[i][j]);
+		}
+		printf("\n");
+	}	
+	
+	printf("Presione enter para continuar el analisis\n");
+	
+	char c;
+	while( (c=getch()) != 13 );
+	
+	for(i=0; i<largo_max; i++)
+		limpiarRenglon(i);
+	
+	system("mode con: cols=100 lines=30");
 }
-*/

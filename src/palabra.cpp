@@ -5,9 +5,10 @@ void nodo_palabra_swap(NodoPalabra *, NodoPalabra *);
 void lista_palabra_mergesort(NodoPalabra *, NodoPalabra *);
 void lista_palabra_merge(NodoPalabra *, NodoPalabra *, NodoPalabra *, NodoPalabra *);
 
-Palabra palabra_crear(string cadena)
+Palabra
+palabra_crear(string cadena)
 {
-	
+
 	/*	Crea una Palabra y le asigna una cadena	*/
 	
 	Palabra palabra_nueva;
@@ -20,7 +21,8 @@ Palabra palabra_crear(string cadena)
 }
 
 
-string palabra_cadena(Palabra & palabra)
+string
+palabra_cadena(Palabra & palabra)
 {
 	
 	/*	Devuelve la Palabra per se	*/
@@ -29,7 +31,8 @@ string palabra_cadena(Palabra & palabra)
 	
 }
 
-int palabra_apariciones(Palabra & palabra)
+int
+palabra_apariciones(Palabra & palabra)
 {
 	
 	/*	Devuelve las apariciones de la palabra	*/
@@ -38,25 +41,50 @@ int palabra_apariciones(Palabra & palabra)
 	
 }
 
-void palabra_aumentar_apariciones(Palabra & palabra)
+void
+palabra_aumentar_apariciones(Palabra & palabra)
 {
 
+	/*	Aumenta la cantidad de apariciones de una Palabra	*/
+	
 	palabra.apariciones++;
 	
 }
 	
-PtrNodoPalabra lista_palabra_crear()
+PtrNodoPalabra
+lista_palabra_crear()
 {
-	
 	/*	Crea el puntero "maestro" de la lista	*/
 	
 	PtrNodoPalabra ptr_maestro = NULL;
 	
 	return ptr_maestro;
-	
 }
 
-void nodo_palabra_set(NodoPalabra * ptr_nodo, string cadena)
+void
+lista_palabra_destruir(NodoPalabra ** ptr_maestro)
+{
+	/*	Libera recursivamente la memoria que ocupa la lista	
+	*	Utilizar al cerrar el programa	
+	*	Reutilizar matriz y lista dinamica al reabrir estadisticas	*/
+	
+	if( *ptr_maestro == NULL )
+		return;
+	
+	if( (*ptr_maestro)->ptr_nodo_palabra != NULL){
+		printf("k\n");
+		lista_palabra_destruir(&((*ptr_maestro)->ptr_nodo_palabra));
+	}
+	
+	printf("k\n");
+	delete (*ptr_maestro);
+	printf("e\n");
+	*ptr_maestro = NULL;
+	return;
+}
+
+void
+nodo_palabra_set(NodoPalabra * ptr_nodo, string cadena)
 {
 	
 	/*	Recibe la direccion de un nuevo nodo y setea sus campos	*/
@@ -66,7 +94,8 @@ void nodo_palabra_set(NodoPalabra * ptr_nodo, string cadena)
 	
 }
 
-void lista_palabra_enlace_condicional( PtrNodoPalabra * ptr_maestro, string cadena )
+void
+lista_palabra_enlace_condicional( PtrNodoPalabra * ptr_maestro, string cadena )
 {
 	
 	/*	Esta funcion recibe una cadena, la incluye a la lista enlazada no esta 
@@ -97,7 +126,8 @@ void lista_palabra_enlace_condicional( PtrNodoPalabra * ptr_maestro, string cade
 	
 }
 
-void lista_palabra_enlace_inicio(NodoPalabra ** ptr_maestro, NodoPalabra * ptr_primer_nodo)
+void
+lista_palabra_enlace_inicio(NodoPalabra ** ptr_maestro, NodoPalabra * ptr_primer_nodo)
 {
 	/*	Recibe el puntero maestro y lo modifica para que apunte al primer nodo de la lista	*/
 	
@@ -109,7 +139,8 @@ void lista_palabra_enlace_inicio(NodoPalabra ** ptr_maestro, NodoPalabra * ptr_p
 	return;
 }
 	
-void lista_palabra_enlace_final(NodoPalabra ** ptr_fnl, NodoPalabra * nodo_palabra_nuevo)
+void
+lista_palabra_enlace_final(NodoPalabra ** ptr_fnl, NodoPalabra * nodo_palabra_nuevo)
 {
 	/*	Funcion NO ITERA, se debe pasar el nodo que apunta a final de lista y linkea	*/
 	
@@ -117,7 +148,8 @@ void lista_palabra_enlace_final(NodoPalabra ** ptr_fnl, NodoPalabra * nodo_palab
 	(* ptr_fnl) = nodo_palabra_nuevo;
 }
 
-void lista_palabra_ordenar(NodoPalabra * ptr_mtr)
+void
+lista_palabra_ordenar(NodoPalabra * ptr_mtr)
 {
 	
 	/*	Esta lista debe estar ordenada de mayor a menor por cantidad de apariciones,
@@ -161,9 +193,9 @@ void lista_palabra_ordenar(NodoPalabra * ptr_mtr)
 	
 }
 
-void mostrar_todas_las_palabras(NodoPalabra * ptr_maestro)
+void
+lista_imprimir_completa(NodoPalabra * ptr_maestro)
 {
-	
 	PtrNodoPalabra ptr_aux = ptr_maestro;
 	
 	while(ptr_aux != NULL){
@@ -176,7 +208,8 @@ void mostrar_todas_las_palabras(NodoPalabra * ptr_maestro)
 
 
 	
-void nodo_palabra_swap(NodoPalabra *anterior, NodoPalabra *posterior)
+void
+nodo_palabra_swap(NodoPalabra *anterior, NodoPalabra *posterior)
 {
 	Palabra aux = anterior -> palabra;
 	anterior -> palabra = posterior -> palabra;
@@ -184,7 +217,8 @@ void nodo_palabra_swap(NodoPalabra *anterior, NodoPalabra *posterior)
 }
 
 
-void lista_palabra_frecuencia(PtrNodoPalabra ptr_mtr, char c)
+void
+lista_palabra_frecuencia(PtrNodoPalabra ptr_mtr, char c)
 {
 	
 	/*	Dada una letra X, informar las 5 palabras con X como letra inicial,
@@ -194,17 +228,15 @@ void lista_palabra_frecuencia(PtrNodoPalabra ptr_mtr, char c)
 	int i=0;
 	c = tolower(c);
 	
-	printf("Palabra");
-	gotoxy(17,7);
-	printf("-");
-	gotoxy(29,7);
-	printf("Apariciones\n");
+	limpiarRenglon(7);
+	gotoxy(2,7);
+	printf("Palabra       -       Apariciones\n");
 	
 	while(ptr_mtr != NULL and i<5){
 		if(tolower(ptr_mtr -> palabra.cadena.at(0)) == c){
 			gotoxy(2,8+i);
 			printf("%s", ptr_mtr -> palabra.cadena.c_str());
-			gotoxy(34,8+i);
+			gotoxy(28,8+i);
 			printf("%d\n", ptr_mtr -> palabra.apariciones);
 			i++;
 		}
@@ -212,19 +244,24 @@ void lista_palabra_frecuencia(PtrNodoPalabra ptr_mtr, char c)
 	}
 }
 
-string nodo_palabra_siguiente(PtrNodoPalabra & ptr_plb)
+string
+nodo_palabra_siguiente(PtrNodoPalabra & ptr_plb)
 {
 	/*	Devuelve la palabra del nodo y adelanta el puntero en la lista, borrando el nodo anterior
 		tener cuidado con modificar el puntero maestro	*/
 	
-	NodoPalabra * ptr_aux = ptr_plb, * ptr_dlt = NULL;
+	NodoPalabra * ptr_aux = ptr_plb;
+	
 	string ret = ptr_plb -> palabra.cadena;
+	
 	ptr_plb = ptr_plb -> ptr_nodo_palabra;
 	delete ptr_aux;
 	return ret;
 }
 
-void lista_palabra_iniciar_ms(NodoPalabra * ptr_mtr){
+void
+lista_palabra_iniciar_ms(NodoPalabra * ptr_mtr)
+{
 	
 	//	Conclusion, en esta aplicacion mergesort agilizo el ordenamiento pero no fue una cantidad sustancial
 	//	Agregar palabras a la lista controlando sin repetidos es la mayor fuente de retraso en el programa
@@ -232,6 +269,11 @@ void lista_palabra_iniciar_ms(NodoPalabra * ptr_mtr){
 	/*	Itera por la lista hasta obtener la direccion del ultimo elemento
 		luego ingresa al merge sort	
 		Paso necesario para encontrar mitad de la lista sin intentar acceder a campos de un puntero NULL	*/
+	
+	if( ptr_mtr == NULL ){
+		printf("panic ms\n");
+		return;
+	}
 	
 	NodoPalabra * ptr_fnl = ptr_mtr;
 	
@@ -243,7 +285,9 @@ void lista_palabra_iniciar_ms(NodoPalabra * ptr_mtr){
 	return;
 }
 
-void lista_palabra_mergesort(NodoPalabra * ptr_ini, NodoPalabra * ptr_fnl){
+void
+lista_palabra_mergesort(NodoPalabra * ptr_ini, NodoPalabra * ptr_fnl)
+{
 	
 	if(ptr_ini == ptr_fnl)	return;
 	
@@ -264,7 +308,8 @@ void lista_palabra_mergesort(NodoPalabra * ptr_ini, NodoPalabra * ptr_fnl){
 	
 }
 
-void lista_palabra_merge
+void 
+lista_palabra_merge
 (NodoPalabra *ptr_ini1, NodoPalabra *ptr_fnl1, NodoPalabra *ptr_ini2, NodoPalabra *ptr_fnl2)
 {
 	/*	Esta lista debe estar ordenada de mayor a menor por cantidad de apariciones,

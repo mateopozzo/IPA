@@ -80,8 +80,6 @@ void abecedario_ingles() {
 }
 
 void abecedario_italiano() {
-
-	system("chcp 437");
 	
     // Alfabeto en minusculas
     cout << "------------------------\n" <<
@@ -119,6 +117,9 @@ void abecedario_italiano() {
 
 void abecedario_portugues() {
 
+	system("chcp 860");	//	codepage adecuada para el portugues
+	system("cls");
+	
     // Alfabeto en minusculas
     cout << "------------------------\n" <<
         "|Alfabeto en minusculas|\n" <<
@@ -142,11 +143,11 @@ void abecedario_portugues() {
         "|Minusculas Acentuadas|\n" <<
         "-----------------------" << endl;
     cout << (char) 160 << " " << (char) 133 << " " 
-		<< (char) 131 << " " << (char) 198 << " " 
+		<< (char) 131 << " " << (char) 132 << " " 
 		<<(char) 135 << " " << (char) 130 << " " 
 		<< (char) 136 << " " << (char) 161 << " " 
 		<< (char) 162 << " " << (char) 147 << " " 
-		<< (char) 228 << " " << (char) 163 << " " 
+		<< (char) 148 << " " << (char) 163 << " " 
 		<<  endl;
 
     cout << "\nPresione enter para volver al menu abecedarios";
@@ -155,6 +156,9 @@ void abecedario_portugues() {
 	do{
 		c = getch();
 	} while(c != 13);
+	
+	system("chcp 850");
+	system("cls");
 	
     return;
 }

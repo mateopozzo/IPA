@@ -1,0 +1,765 @@
+Sofia
+Garcia
+F
+77074
+4 7 0 7 1
+Estudiante
+5 11 2022
+Mateo
+Rodriguez
+M
+61921
+1 2 9 1 7
+Profesor
+26 9 2021
+Valentina
+Gonzalez
+F
+46996
+6 9 9 6 0
+Estudiante
+21 3 2021
+Martin
+Fernandez
+M
+81555
+5 5 5 1 3
+Profesor
+19 7 2022
+Isabella
+Lopez
+F
+44978
+8 7 9 4 2
+Estudiante
+22 8 2023
+Lucas
+Martinez
+M
+28242
+2 4 2 8 4
+Profesor
+8 5 2021
+Camila
+Sanchez
+F
+53231
+1 3 2 3 6
+Estudiante
+28 1 2022
+Sebastian
+Perez
+M
+10262
+2 6 2 0 3
+Profesor
+25 8 2023
+Valeria
+Gomez
+F
+41097
+7 9 0 1 1
+Estudiante
+6 10 2021
+Matias
+Montero
+M
+73223
+3 2 2 3 0
+Profesor
+26 1 2021
+Emma
+Lorenzo
+F
+85367
+7 6 3 5 5
+Estudiante
+12 12 2022
+Nicolas
+Santiago
+M
+54384
+4 8 3 4 9
+Profesor
+20 1 2023
+Renata
+Benitez
+F
+65207
+7 0 2 5 3
+Estudiante
+3 4 2023
+Alejandro
+Duran
+M
+57190
+0 9 1 7 5
+Profesor
+15 7 2021
+Victoria
+Ibanez
+F
+72902
+2 0 9 2 9
+Estudiante
+8 11 2023
+Diego
+Arias
+M
+43867
+7 6 8 3 1
+Profesor
+8 11 2021
+Mariana Mora
+F
+73213
+3 1 2 3 0
+Estudiante
+28 1 2023
+Daniel
+Ferrer
+M
+32620
+0 2 6 2 3
+Profesor
+8 9 2022
+Antonella
+Carmona
+F
+74832
+2 3 8 4 9
+Estudiante
+28 2 2021
+Juan
+Vicente
+M
+77457
+7 5 4 7 4
+Profesor
+16 2 2023
+Lucia
+Rojas
+F
+61547
+7 4 5 1 3
+Estudiante
+24 8 2021
+Gabriel
+Soto
+M
+30465
+5 6 4 0 8
+Profesor
+11 9 2022
+Julieta
+Crespo
+F
+76358
+8 5 3 6 5
+Estudiante
+22 3 2023
+Tomas
+Roman
+M
+71621
+1 2 6 1 8
+Profesor
+11 12 2022
+Isidora
+Pastor
+F
+46199
+9 9 1 6 3
+Estudiante
+9 1 2023
+Pablo
+Velasco
+M
+14204
+4 0 2 4 5
+Profesor
+4 5 2022
+Emilia
+Parra
+F
+87415
+5 1 4 7 3
+Estudiante
+15 11 2021
+Andres
+Saez
+M
+11780
+0 8 7 1 1
+Profesor
+14 7 2021
+Fernanda
+Moya
+F
+65599
+9 9 5 5 5
+Estudiante
+11 1 2022
+Felipe
+Bravo
+M
+39065
+5 6 0 9 8
+Profesor
+21 11 2021
+Antonia
+Rivera
+F
+54251
+1 5 2 4 6
+Estudiante
+21 9 2023
+Ignacio
+Gallardo
+M
+44904
+4 0 9 4 8
+Profesor
+24 12 2022
+Constanza
+Soler
+F
+88819
+9 1 8 8 7
+Estudiante
+18 10 2022
+Agustin
+Alava
+M
+25563
+3 6 5 5 5
+Profesor
+6 5 2022
+Catalina
+Albacete
+F
+64595
+5 9 5 4 1
+Estudiante
+1 8 2021
+Benjamin
+Alicante
+M
+44152
+2 5 1 4 6
+Profesor
+12 10 2023
+Javiera
+Alcaudete
+F
+60922
+2 2 9 0 8
+Estudiante
+25 6 2022
+Matias
+Albornoz
+M
+48776
+6 7 7 8 0
+Profesor
+5 5 2023
+Florencia
+Aldeguer
+F
+42690
+0 9 6 2 4
+Estudiante
+2 12 2022
+Joaquin
+Aliste
+M
+34366
+6 6 3 4 9
+Profesor
+14 6 2023
+Emilia
+Amezcua
+F
+70917
+7 1 9 0 4
+Estudiante
+11 8 2022
+Cristobal
+Anca
+M
+74351
+1 5 3 4 8
+Profesor
+28 9 2023
+Valentina
+Aragon
+F
+11734
+4 3 7 1 5
+Estudiante
+28 12 2023
+Maximiliano
+Arenas
+M
+20259
+9 5 2 0 1
+Profesor
+14 10 2021
+Isidora
+Asensio
+F
+44533
+3 3 5 4 7
+Estudiante
+27 6 2022
+Francisco
+Azcon
+M
+85971
+1 7 9 5 9
+Profesor
+1 5 2021
+Renata
+Baeza
+F
+58426
+6 2 4 8 1
+Estudiante
+8 8 2023
+Tomas
+Baena
+M
+86115
+5 1 1 6 3
+Profesor
+4 4 2023
+Antonia
+Barbero
+F
+23904
+4 0 9 3 6
+Estudiante
+9 4 2022
+Agustin
+Barquero
+M
+29382
+2 8 3 9 4
+Profesor
+15 9 2023
+Catalina
+Benavente
+F
+33853
+3 5 8 3 6
+Estudiante
+5 1 2022
+Benjamin
+Beltran
+M
+54027
+7 2 0 4 2
+Profesor
+20 5 2021
+Javiera
+Bermudez
+F
+52528
+8 2 5 2 3
+Estudiante
+19 6 2023
+Matias
+Caballero
+M
+57246
+6 4 2 7 1
+Profesor
+1 12 2021
+Florencia
+Cabrera
+F
+61456
+6 5 4 1 2
+Estudiante
+5 7 2023
+Joaquin
+Calvo
+M
+86564
+4 6 5 6 2
+Profesor
+22 4 2023
+Emilia
+Camarillo
+F
+62353
+3 5 3 2 9
+Estudiante
+24 12 2021
+Cristobal
+Cano
+M
+42450
+0 5 4 2 4
+Profesor
+21 3 2021
+Valentina
+Canas
+F
+71747
+7 4 7 1 4
+Estudiante
+19 3 2023
+Maximiliano
+Carreno
+M
+88609
+9 0 6 8 7
+Profesor
+26 3 2021
+Isidora
+Castro
+F
+87442
+2 4 4 7 0
+Estudiante
+16 4 2023
+Francisco
+Castrillo
+M
+68754
+4 5 7 8 0
+Profesor
+7 1 2021
+Renata
+Chacon
+F
+43018
+8 1 0 3 2
+Estudiante
+6 1 2023
+Tomas
+Chavez
+M
+77796
+6 9 7 7 3
+Profesor
+6 8 2023
+Antonia
+Checa
+F
+34014
+4 1 0 4 7
+Estudiante
+13 4 2023
+Agustin
+Chinea
+M
+72355
+5 5 3 2 2
+Profesor
+22 7 2022
+Catalina
+Chivili
+F
+30053
+3 5 0 0 6
+Estudiante
+5 8 2021
+Benjamin
+Cifuentes
+M
+40548
+8 4 5 0 2
+Profesor
+17 1 2022
+Javiera
+Cid
+F
+61037
+7 3 0 1 3
+Estudiante
+11 7 2022
+Matias
+Clemente
+M
+58870
+0 7 8 8 5
+Profesor
+15 2 2021
+Florencia
+Cordoba
+F
+73185
+5 8 1 3 2
+Estudiante
+20 2 2021
+Joaquin
+Conde
+M
+26866
+6 6 8 6 8
+Profesor
+9 10 2023
+Emilia
+Contreras
+F
+21827
+7 2 8 1 9
+Estudiante
+17 10 2023
+Cristobal
+Cook
+M
+62256
+6 5 2 2 2
+Profesor
+18 1 2021
+Valentina
+Cordero
+F
+87621
+1 2 6 7 9
+Estudiante
+2 4 2023
+Maximiliano
+Cortes
+M
+82742
+2 4 7 2 0
+Profesor
+5 1 2023
+Isidora
+Costello
+F
+74244
+4 4 2 4 1
+Estudiante
+25 2 2021
+Francisco
+Crespo
+M
+40408
+8 0 4 0 2
+Profesor
+28 6 2023
+Renata
+Cruz
+F
+61008
+8 0 0 1 4
+Estudiante
+23 2 2023
+Tomas
+Davila
+M
+48760
+0 6 7 8 4
+Profesor
+23 9 2022
+Antonia
+Cruz
+F
+42485
+5 8 4 2 9
+Estudiante
+11 2 2021
+Agustin
+Hoz
+M
+49247
+7 4 2 9 1
+Profesor
+6 12 2022
+Catalina
+Torres
+F
+30300
+0 0 3 0 3
+Estudiante
+27 5 2021
+Benjamin
+Nieves
+M
+71051
+1 5 0 1 8
+Profesor
+9 6 2022
+Javiera
+Arco
+F
+12076
+6 7 0 2 7
+Estudiante
+25 8 2022
+Matias
+Cid
+M
+87667
+7 6 6 7 5
+Profesor
+11 12 2021
+Florencia
+Rio
+F
+24368
+8 6 3 4 0
+Estudiante
+5 7 2022
+Joaquin
+Valle
+M
+20942
+2 4 9 0 4
+Profesor
+3 5 2023
+Emilia
+Dominguez
+F
+73490
+0 9 4 3 7
+Estudiante
+13 12 2022
+Cristobal
+Diaz
+M
+68009
+9 0 0 8 5
+Profesor
+3 7 2021
+Valentina
+Doval
+F
+66066
+6 6 0 6 2
+Estudiante
+6 6 2023
+Maximiliano
+Diaz
+M
+39929
+9 2 9 9 2
+Profesor
+20 9 2021
+Isidora
+Fernandez
+F
+85110
+0 1 1 5 8
+Estudiante
+3 11 2021
+Francisco
+Figueroa
+M
+15926
+6 2 9 5 7
+Profesor
+2 3 2023
+Renata
+Ferreiro
+F
+49049
+9 4 0 9 3
+Estudiante
+18 7 2021
+Tomas
+Fischer
+M
+25932
+2 3 9 5 4
+Profesor
+5 1 2023
+Antonia
+Flores
+F
+75761
+1 6 7 5 8
+Estudiante
+7 6 2023
+Agustin
+Font
+M
+38122
+2 2 1 8 5
+Profesor
+16 3 2023
+Catalina
+Fornes
+F
+47631
+1 3 6 7 5
+Estudiante
+17 12 2021
+Benjamin
+Garcia
+M
+65085
+5 8 0 5 1
+Profesor
+11 3 2023
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

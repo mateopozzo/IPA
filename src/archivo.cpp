@@ -8,7 +8,10 @@
 using namespace std;
 
 ifstream manejador;
+ofstream escritor;
 
+
+//faltan comentarios
 archivo setup(string nombre, string nombreF){
 	archivo aux;
 	aux.nombre = nombre;
@@ -48,3 +51,32 @@ bool cierre(archivo X){
 int leidas(archivo X){
 	return X.cantidad;
 }
+	
+	
+/*====Funciones que amplian el TDA original====*/
+	
+bool archivo_setup_escritura(const char * direccion){
+	
+	/*	Abre el archivo si es que no esta abierto ya	*/
+	
+	if(!escritor.is_open())	escritor.open(direccion);
+	
+	return escritor.is_open();
+}
+	
+void archivo_cerrar_escritura(){
+	
+	/*	Cierra el archivo si es que esta abierto */
+	
+	if( escritor.is_open() )	escritor.close();
+	
+}
+
+void archivo_cargar_linea(string linea){
+	
+	/*	Escibre una cadena que recibe si el archivo esta abierto	*/
+	
+	if( escritor.is_open() )	escritor << linea;
+	
+}
+

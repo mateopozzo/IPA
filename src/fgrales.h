@@ -1,6 +1,9 @@
 #ifndef FGRALES_H
 #define FGRALES_H
 
+/*	Contiene librerias y prototipos de funciones utiles se presentan en 
+ *	diversos contextos	*/
+
 #include <windows.h>
 #include <string>
 using namespace std;

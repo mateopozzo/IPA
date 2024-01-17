@@ -1,5 +1,9 @@
 #ifndef LOGIN_H
 #define LOGIN_H
+
+/*	Contiene los prototipos de funciones que hacen al funcionamiento del
+ * 	login del usuario a la aplicacion	*/
+
 #include "persona.h"
 
 int IngresarLegajo();

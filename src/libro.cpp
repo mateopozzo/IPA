@@ -6,7 +6,9 @@ using namespace std;
 ifstream libro_archivo;
 ofstream archivo_out;
 
-Libro libro_declarar(string & libro_titulo, const char * libro_path){
+Libro
+libro_declarar(string & libro_titulo, const char * libro_path)
+{
 	/*	Se instancia un libro y se le asigna a sus campos la informacion correspondiente	*/
 	
 	Libro libro;
@@ -17,7 +19,9 @@ Libro libro_declarar(string & libro_titulo, const char * libro_path){
 	return libro;
 }
 
-bool libro_iniciar_archivo(Libro & libro){
+bool 
+libro_iniciar_archivo(Libro & libro)
+{
 	/*	Recibe un libro con campos cargados y lo abre en el manejador de libro	*/
 	
 	bool exito=true;
@@ -31,7 +35,9 @@ bool libro_iniciar_archivo(Libro & libro){
 	return exito;
 }
 	
-bool libro_finalizar_archivo(){
+bool
+libro_finalizar_archivo()
+{
 	/*	Cierra el manejador si es tiene cargado algun libro	*/
 	bool exito = true;
 	
@@ -44,7 +50,9 @@ bool libro_finalizar_archivo(){
 	return exito;
 }
 
-bool libro_leer_linea(string & linea){
+bool 
+libro_leer_linea(string & linea)
+{
 	/*	Recibe string, guarda en ella una linea si algun libro esta cargado	*/
 	
 	bool ret = !libro_archivo.eof();
@@ -54,14 +62,31 @@ bool libro_leer_linea(string & linea){
 	
 	return ret;
 }
+
+bool 
+libro_leer_caracter(char * c)
+{
+	/*	Recibe string, guarda en ella una linea si algun libro esta cargado	*/
 	
-void libro_titulo_imprimir(Libro & libro){
+	bool ret = !libro_archivo.eof();
+	
+	if(ret)
+		libro_archivo.get(c, 2, EOF);
+	
+	return ret;
+}
+	
+void
+libro_titulo_imprimir(Libro & libro)
+{
 	/*	Recibe un libro imprime el titulo	*/
 	
 	cout<<libro.titulo<<'\n';
 }
 	
-string libro_titulo(Libro & libro){
+string 
+libro_titulo(Libro & libro)
+{
 	/*	Recibe un libro y devuelve su titulo	*/
 	
 	return libro.titulo;

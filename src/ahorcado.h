@@ -1,6 +1,9 @@
 #ifndef AHORCADO_H
 #define AHORCADO_H
 
+/*	Contiene las librerias y prototipos que hacen al funcionamiento del
+ *  juego ahorcado	*/
+
 #include <string>
 using namespace std;
 

@@ -1,6 +1,9 @@
 #ifndef ARCHIVO_H
 #define ARCHIVO_H
 
+/*	Contiene los prototipos y librerias brindados por la catedra
+ *  y otros implementados por los integrantes del grupo	*/
+
 #include <iostream>
 #include <fstream>
 #include <stdio.h>

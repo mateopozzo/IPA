@@ -13,6 +13,8 @@ Apariciones	Caracter
 22612		t
 22221		s
 20267		c
+14856		
+
 14633		d
 14576		u
 11681		m

@@ -1,6 +1,9 @@
 #ifndef MENUES_H
 #define MENUES_H
 
+/*	Contiene los prototipos de las funciones que implementan los menues
+ * 	que permiten naveagar la aplicacion	*/
+
 #include <string>
 using namespace std;
 

@@ -1,6 +1,9 @@
 #ifndef MEMORIA_H
 #define MEMORIA_H
 
+/*	Contiene los prototipos de las funciones que hacen al funcionamiento del
+ * 	juego de la memoria	*/
+
 #include <string>
 using namespace std;
 

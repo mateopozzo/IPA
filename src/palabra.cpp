@@ -62,24 +62,20 @@ lista_palabra_crear()
 }
 
 void
-lista_palabra_destruir(NodoPalabra ** ptr_maestro)
+lista_palabra_destruir(NodoPalabra ** ptr_nodo)
 {
 	/*	Libera recursivamente la memoria que ocupa la lista	
 	*	Utilizar al cerrar el programa	
 	*	Reutilizar matriz y lista dinamica al reabrir estadisticas	*/
 	
-	if( *ptr_maestro == NULL )
+	if( *ptr_nodo == NULL ){
+		printf("isnull");
 		return;
-	
-	if( (*ptr_maestro)->ptr_nodo_palabra != NULL){
-		printf("k\n");
-		lista_palabra_destruir(&((*ptr_maestro)->ptr_nodo_palabra));
 	}
 	
-	printf("k\n");
-	delete (*ptr_maestro);
-	printf("e\n");
-	*ptr_maestro = NULL;
+	lista_palabra_destruir(&((*ptr_nodo)->ptr_nodo_palabra));
+	delete (*ptr_nodo);
+	*ptr_nodo = NULL;
 	return;
 }
 
@@ -248,7 +244,7 @@ string
 nodo_palabra_siguiente(PtrNodoPalabra & ptr_plb)
 {
 	/*	Devuelve la palabra del nodo y adelanta el puntero en la lista, borrando el nodo anterior
-		tener cuidado con modificar el puntero maestro	*/
+	 *	tener cuidado con modificar el puntero maestro	*/
 	
 	NodoPalabra * ptr_aux = ptr_plb;
 	
@@ -263,8 +259,8 @@ void
 lista_palabra_iniciar_ms(NodoPalabra * ptr_mtr)
 {
 	
-	//	Conclusion, en esta aplicacion mergesort agilizo el ordenamiento pero no fue una cantidad sustancial
-	//	Agregar palabras a la lista controlando sin repetidos es la mayor fuente de retraso en el programa
+	/*	Conclusion, en esta aplicacion mergesort agilizo el ordenamiento pero no fue una cantidad sustancial
+	 *	Agregar palabras a la lista controlando sin repetidos es la mayor fuente de retraso en el programa	*/
 	
 	/*	Itera por la lista hasta obtener la direccion del ultimo elemento
 		luego ingresa al merge sort	

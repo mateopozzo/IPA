@@ -6,6 +6,7 @@
 using namespace std;
 
 int main() {
+	system("echo off");
 	system("mode con: cols=100 lines=30");
 	system("chcp 850");	//	codepage de consola ASCII
 	

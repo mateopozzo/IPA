@@ -40,6 +40,8 @@ void abecedario_espaniol() {
 		c = getch();
 	} while(c != 13);
 	
+	system("cls");
+	
     return;
 }
 
@@ -76,6 +78,8 @@ void abecedario_ingles() {
 		c = getch();
 	} while(c != 13);
 	
+	system("cls");
+	
     return;
 }
 
@@ -111,6 +115,8 @@ void abecedario_italiano() {
 	do{
 		c = getch();
 	} while(c != 13);
+	
+	system("cls");
 	
     return;
 }
@@ -160,6 +166,8 @@ void abecedario_portugues() {
 	system("chcp 850");
 	system("cls");
 	
+	system("cls");
+	
     return;
 }
 
@@ -203,6 +211,8 @@ void abecedario_frances() {
 	do{
 		c = getch();
 	} while(c != 13);
+	
+	system("cls");
 	
     return;
 }

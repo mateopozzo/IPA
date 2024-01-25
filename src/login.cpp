@@ -10,13 +10,14 @@
 
 using namespace std;
 
-//MODIFICADO POR FRANCO 23:12
-void cargaUsuarios(){
+void
+cargaUsuarios()
+{
 	// Crear un arreglo de 100 elementos de la estructura Persona
 	Persona personas[100];
 	ifstream arch_salida; 
 	
-	arch_salida.open("Info_Definitiva_Usuarios.txt");
+	arch_salida.open("..\\Info_Usuarios.txt");
 	
 	if(!arch_salida){
 		cout << "No se pudo abrir el archivo" << endl; 
@@ -46,7 +47,7 @@ void cargaUsuarios(){
 		ofstream archivo("usuarios.bin", ios::binary);
 		
 		// Escribir los datos de las 100 personas en el archivo binario
-		archivo.write(reinterpret_cast<const char*>(&personas), sizeof(personas));
+		archivo.write( (char*)(&personas), sizeof(personas) );
 		
 		// Cerrar el archivos
 		archivo.close();
@@ -58,9 +59,13 @@ void cargaUsuarios(){
 		
 	}
 }
-void Ingresarcontrasenia(char Clave[]) {
 	
-	// Permite ingresar la contraseña y en pantalla se la muestra oculta (a traves de asteriscos)
+
+void
+Ingresarcontrasenia(char Clave[])
+{
+	
+	// Permite ingresar la contrase�a y en pantalla se la muestra oculta (a traves de asteriscos)
 	int i = 0;
 	bool flag = true;
 	char aux = '\0';
@@ -91,18 +96,21 @@ void Ingresarcontrasenia(char Clave[]) {
 	else Clave[10] = '\0';
 }
 
-void convertirClaveInt(char clave[], int ID[], const int tam){
-	
+
+void
+convertirClaveInt(char clave[], int ID[], const int tam)
+{
 	for (int i = 0; i < tam ; i++) ID[i] = clave[i] - '0';
 }
-
-bool validarContra(int ingresada[], int extraida[], const int tam){
 	
+
+bool 
+validarContra(int ingresada[], int extraida[], const int tam)
+{
 	bool esValida = true; 
 	int pos = 0; 
 	
-	while (esValida and pos < tam){
-		
+	while( esValida and pos < tam ){
 		if(ingresada[pos] != extraida[pos]) esValida = false; 
 		pos++; 
 	}
@@ -110,9 +118,12 @@ bool validarContra(int ingresada[], int extraida[], const int tam){
 	return esValida; 
 }
 
-int IngresarLegajo(){
+int
+IngresarLegajo()
+{
 	
-	// Si se le ingresa un numero de legajo valido, esta genera una contraseña
+	/* 	Pide al usuario que ingrese su legajo y lo devuelve como variable entera 
+	 * 	si es valido	*/
 	
 	system("chcp 850");	//	setea consola a ANSI latin
 	system("cls");
@@ -133,9 +144,9 @@ int IngresarLegajo(){
         gotoxy(47, 7);
         getline(cin, legajoS);
 		
-		
         int i = 0, tam;
 		
+		/*	Se corrobora que el legajo ingresado tenga 5 digitos	*/
 		if(!legajoS.empty()){
 			
 			tam = legajoS.size();
@@ -148,14 +159,10 @@ int IngresarLegajo(){
             if (!isdigit(legajoS.at(i))) flagNumero = false;
 			
             i++;
-			
         }
 		
-        if (flagNumero) legajo = stoi(legajoS);
-		
-		
+        if (flagNumero) legajo = stoi(legajoS);		
         gotoxy((100 - 55) / 2, 8);
-		
 		
         if (legajo >= 10000 and legajo <= 89999 and flagNumero) dentroDeRango = true;
         else cout << "Legajo incorrecto. Por favor ingrese de nuevo su legajo" << endl;
@@ -164,26 +171,35 @@ int IngresarLegajo(){
 	} while (!dentroDeRango);
 	
 	limpiarRenglon(8);
-	
-	//generarID(legajo, ID);
-    //ValidacionContrasenia(ID);
 
 	return legajo; 
 }
 
-void login(){
+void
+actualizar_ultima_fecha_acceso(fstream& archivo, Persona& per, int pos)
+{
+	persona_actualizar_fecha(per);	//	Actualizacion de la fecha del usuario
 
-	ifstream arch_usuarios;
-	arch_usuarios.open("..\\doc\\usuarios.bin", ios::binary);
+	archivo.seekp(pos * sizeof(Persona));	//	me posiciono en la posicion del usuario en el archivo
+	archivo.write((char*)(&per), sizeof(Persona));	// escribo en el archivo
+}
+
+void
+login()
+{
+    
+	/*	Funcion encargada de comprobar que la informacion de login del usuario 
+	 *  sea la correcta	*/
+	fstream var_control;
 	
-	bool estaLegajo;
 	int ID[5];
 	char clave[6]; // fijarse el tamanio correcto
 	int legajo, intentos = 0; 
 	
 	// se crea la variable de flujo y se abre el archivo
-	Persona persona[100]; 
+	Persona p; 
 	bool contraCorrecta = false; 
+	bool personaValida = false;
 	
 	//variables para almacenar los datos de la persona
 	string nombre, apellido, rol; 
@@ -192,7 +208,8 @@ void login(){
 	int contra[5];
 	int i, pos;
 	
-	if(arch_usuarios.fail()){ // Verificacion de apertura
+	var_control.open("..\\doc\\usuarios.bin", ios::binary | ios::in | ios::out);
+	if( var_control.fail() ){ // Verificacion de apertura
 		cout << "No se pudo abrir el registro de usuarios." << endl; 
 	}
 	else{ // si hubo una apertura exitosa
@@ -201,40 +218,46 @@ void login(){
 		
 		//INGRESO DE LEGAJO
 		do{
-			estaLegajo = false; 
-			
+			personaValida = false; 
 			legajo = IngresarLegajo(); 
+            
+            
 			
-			while( !arch_usuarios.eof() ){
+			while( !var_control.eof() and !personaValida ){ // mientras no haya llegado al final, y el legajo no este y la contra sea invalida
 				
-				arch_usuarios.read((char*)(&persona[i]), sizeof(Persona));
+				var_control.read((char*)(&p), sizeof(Persona));
+                
+                cout<< p.numeroLegajo<<endl;
 				
-				if(!estaLegajo){
-					if(persona[i].numeroLegajo == legajo)
-						estaLegajo = true;					
-					else pos++;
-					intentos = 0;
+				if( legajo == p.numeroLegajo ){ //hubo coincidencia y se encontro el usuario
+					// se procede a copiar los datos de la persona en variables locales
+					nombre = string(p.nombre); 
+					apellido = string(p.apellido);  
+                    rol = string(p.rol);
+					sexo = p.sexo; 
+					dia = p.ultimoAcceso.dia; 
+					mes = p.ultimoAcceso.mes;
+					anio = p.ultimoAcceso.anio;
+                    
+					personaValida = true; 
 				}
-				i++;
-				
-				
+				else pos++;
+
 			}
 			
-			if( !estaLegajo ){
+			if( !personaValida ){
 				printf("Legajo inexistente, volver a ingresar");
-				arch_usuarios.seekg(0, ios::beg);
+				var_control.seekg(0, ios::beg);
 				intentos++;
 			}
 			
-		} while( !estaLegajo and intentos < 3 );
+		} while( !personaValida and intentos < 3 );
 		
-		
-		
-		while(intentos < 3 and !contraCorrecta and estaLegajo){
+		while( intentos < 3 and !contraCorrecta and personaValida ){
 			
 			// copiados de valores del archivo hacia las varibles 
 			for(i = 0 ; i < 5 ; i++)
-				contra[i] = persona[pos].contrasenia[i]; // paso los valores de la contra a aca
+				contra[i] = p.contrasenia[i]; // paso los valores de la contra a aca
 			
 			//solicitacion de ingreso de contra
 			limpiarRenglon(8);
@@ -245,8 +268,9 @@ void login(){
 			Ingresarcontrasenia(clave);
 			convertirClaveInt(clave, ID, 5); // paso de arreglo de caacteres a arreglo de enteros 
 			
-			if(validarContra(ID, contra, 5))	contraCorrecta = true; // si la contra es igual a la ingresada, se permite el acceso
-			else {
+			if(validarContra(ID, contra, 5))	contraCorrecta = true; // si la contra es igual a la ingresada se permite el acceso
+			
+            else {
 				intentos++; 
 				gotoxy((100 - 28) / 2, 10);
 				printf("Contrase%ca incorrecta, reingresar\n", 164); 
@@ -258,22 +282,19 @@ void login(){
 			
 			system("cls");
 			
-			nombre = (string)persona[pos].nombre; 
-			sexo = persona[pos].sexo;
-			dia = persona[pos].ultimoAcceso.dia;
-			mes = persona[pos].ultimoAcceso.mes;
-			anio = persona[pos].ultimoAcceso.anio;
-			
 			if (sexo == 'M') cout << "Bienvenido " << nombre << "!" << endl;
 			else if (sexo == 'F') cout << "Bienvenida " << nombre << "!" << endl;
 			
 			cout << "Ultimo acceso a la aplicacion: " << dia << "/" << mes << "/" << anio << endl; 
 			Sleep(1000); 
 			
-			persona_actualizar_fecha(persona[pos]); // actualizo el ultimo acceso al del dia actual 
-			
-			arch_usuarios.close();
-				
+			//persona_actualizar_fecha(persona[pos]); // actualizo el ultimo acceso al del dia actual 
+			//una vez copiado, actualizo la fecha del ultimo acceso en el archivo
+			actualizar_ultima_fecha_acceso(var_control, p, pos); 
+
+			var_control.close();
+
+			/*	
 			ofstream arch_salida;
 			arch_salida.open("..\\doc\\usuarios.bin", ios::binary); //vinculamos nueva variable de flujo con el fichero para escribir
 			
@@ -288,7 +309,8 @@ void login(){
 				Sleep(2000); 
 				
 			}
-			
+			*/
+
 			menuPpal();
 		}
 	}

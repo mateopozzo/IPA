@@ -22,7 +22,7 @@ void bienvenida() {
     logo();
 	char c;
 	
-    while((c = getch()) != 13);
+    while((c = getch()) != 13){};
 	
 	login();
 	
@@ -33,7 +33,7 @@ void logo() {
 	
 	system("cls");	//	Limpia consola
 
-    system("color F0"); // Fondo negro y texto verde
+    system("color F0"); // Fondo blanco texto negro
 
     string bienvenidos = "BIENVENIDOS ;)";
     int tam = bienvenidos.size();
@@ -297,10 +297,10 @@ void menu_abecedarios() {
 
     char opcion;
 	bool flag = true;
+	system("cls");
 
     do {
-        system("cls");
-		
+		gotoxy(0,0);
         cout << "------------------\n" <<
             "|MENU ABECEDARIOS|\n" <<
             "------------------\n" <<
@@ -309,7 +309,7 @@ void menu_abecedarios() {
             "3) Italiano\n" <<
             "4) Portugues\n" <<
             "5) Frances\n" <<
-            "X) Para volver al menu\n" << endl;
+            "X) Para volver al menu" << endl;
 		
         do {
 			
@@ -353,7 +353,6 @@ void menu_abecedarios() {
 		default:
             gotoxy(0, 12);
             cout << opcion << " no es una opcion disponible";
-        
 		}
         
     } while (flag);

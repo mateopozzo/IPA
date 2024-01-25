@@ -28,19 +28,17 @@ Libro arreglo_libros[2];
 void estadisticas_nivel_caracteres(Libro &);
 void arreglo_agrandar(arreglo &, int &, int);
 void arreglo_set_nulo(int *, int *);
-//void conteo_caracteres(string, string &, int *, int &, int &);
 void conteo_caracteres(char *, string &, arreglo &, int &, int &);
 void tabla_frecuencias_salida(string, int *, int);
 
 
 void estadisticas_nivel_palabras(Libro &);
-bool analisis(	int ** ptr_mtrz, int plb_mayor, float & promedio, 
-				float & vocales_prc, float & consonantes_prc);
-string aminusq(string);
-void palabras_mayor_frecuencia_salida(PtrNodoPalabra , Libro &);
 void matriz_iniciales_imprimir(int **, int);
 int ** matriz_iniciales_creacion();
+string aminusq(string);
 void matriz_resize(matriz &, int &, int &);
+bool analisis(	int ** ptr_mtrz, int plb_mayor, float & promedio, float & vocales_prc, float & consonantes_prc);
+void palabras_mayor_frecuencia_salida(PtrNodoPalabra , Libro &);
 
 
 //	Implementacion de funciones
@@ -107,6 +105,7 @@ seleccion_libro(int opcion)
 }
 
 
+/*	Implementaciones estadisticas nivel caracteres	*/
 void
 estadisticas_nivel_caracteres(Libro & libro)
 {
@@ -165,18 +164,126 @@ estadisticas_nivel_caracteres(Libro & libro)
 	free(ptr_arreglo_apariciones);
 	ptr_arreglo_apariciones = NULL;
 	
-	printf("Puedes revisar cualquier estadistica realizada por IPA en \
-		   la carpeta de estadisticas del proyecto\n(IPA/doc/estaditicas)\n");
-	
-	char caux;
-	do{
-		caux = getch();
-	} while( caux != 13);
-	
 	return ;
 }
 
 
+void
+arreglo_agrandar(arreglo & ptr_arreglo, int & tf, int incremento)
+{
+	/*	Agranda el tamaño fisico del arreglo y rellena los nuevos espacios
+	 *  nuevos con 0	*/
+	
+	tf += incremento;
+	
+	ptr_arreglo = (int*) realloc( ptr_arreglo, sizeof(int) * (tf));
+	
+	if( ptr_arreglo == NULL ){
+		printf("No se pudo relocalizar el arreglo\n");
+		free(ptr_arreglo);
+		abort();
+	}
+	
+	arreglo_set_nulo(ptr_arreglo+tf-10, ptr_arreglo+tf);
+	
+	return;
+}
+
+
+void
+arreglo_set_nulo(int * array, int * array_end)
+{
+	/*	Setea todos los valores entre un inicio y un fin dado al valor nulo	*/
+	
+	for( ; array != array_end; array++ )
+		(*array) = 0;
+	
+	return;
+}
+
+
+void
+conteo_caracteres(char * libro_caracter, string & caracteres_libro, arreglo & ptr_arreglo_apariciones, int & tl, int & tf)
+{
+	/*	Recibe un caracter extraido del libro y lo anota	*/
+	
+	int indice;
+	
+	indice = caracteres_libro.find( *libro_caracter );
+	
+	if( indice != -1 )
+		/*	Si el caracter ya fue encontrado, aumento la posicion 
+		 *	ocupa en el contador*/
+		ptr_arreglo_apariciones[indice]++;
+	
+	
+	else{
+		/*	Si el caracter de la linea no estaba previamente en la
+		 *	cadena, se suma al final	*/
+		ptr_arreglo_apariciones[tl]++;
+		tl++;
+		
+		caracteres_libro += *libro_caracter;
+	}
+	
+	if(tf == tl){
+		/*	Si el tamaño fisico del arreglo es alcanzado por el logico, 
+		 *  se realiza una operacion de agrandado del arreglo usando
+		 *  realloc  */
+		arreglo_agrandar(ptr_arreglo_apariciones, tf, 10);
+		
+	}
+}
+
+
+
+
+
+void
+tabla_frecuencias_salida(string caracteres_libro, int * ptr_arreglo_apariciones, int tl)
+{
+	system("mode con cols=100 lines=80");
+	system("color F0");
+	
+	int i, j, pos_mayor;
+	string linea_cargar;
+	
+	archivo_cargar_linea("TABLA DE FRECUENCIAS\n\nApariciones\tCaracter\n\n");
+	printf("TABLA DE FRECUENCIAS\n\nApariciones\tCaracter\n\n");
+	
+	for( i = 0; i < tl; i++ ){
+		pos_mayor = 0;
+		for(j = 0; j < tl; j++ ){
+			/*	Busco el mayor elemento del arreglo	*/
+			if( *(ptr_arreglo_apariciones + j) > *(ptr_arreglo_apariciones + pos_mayor) ){
+				pos_mayor = j;
+			}
+		}
+		
+		printf("%d\t\t%c\t\t\n", *(ptr_arreglo_apariciones + pos_mayor), caracteres_libro.at(pos_mayor));
+		
+		linea_cargar = to_string(*(ptr_arreglo_apariciones + pos_mayor));
+		linea_cargar += "\t\t";
+		linea_cargar +=	caracteres_libro.at(pos_mayor);
+		linea_cargar += "\n";
+		
+		archivo_cargar_linea(linea_cargar);
+		
+		*(ptr_arreglo_apariciones + pos_mayor) = 0;
+	}
+	cout<< "Puedes revisar cualquier estadistica realizada por IPA en "
+		<< "la carpeta de estadisticas del proyecto\n(IPA/doc/estaditicas)\n";
+	
+	char caux = 1;
+	while( caux != 13)	caux = getch();
+	
+	system("mode con cols=100 lines=30");
+	
+	return;
+}
+
+
+/*	Implementaciones estadisticas nivel palabras	*/
 void
 estadisticas_nivel_palabras(Libro & libro)
 {
@@ -251,6 +358,8 @@ estadisticas_nivel_palabras(Libro & libro)
 		/*	Ordenamiento de la lista enlazada	*/
 		printf("\nOrdenando apariciones...\n");
 		lista_palabra_iniciar_ms(lista_dinamica_palabras);
+		limpiarRenglon(2);
+		gotoxy(0, 2);
 		
 		float promedio, vocales_prc, consonantes_prc;
 		string cargar_palabra;
@@ -269,7 +378,7 @@ estadisticas_nivel_palabras(Libro & libro)
 	}
 	
 	char c;
-	printf("Presione enter para volver al menu\n");
+	printf("\n\nPresione enter para volver al menu\n");
 	do{
 		c = getch();
 	} while( c != 13);
@@ -289,9 +398,107 @@ estadisticas_nivel_palabras(Libro & libro)
 	lista_dinamica_palabras = NULL;
 	libro_finalizar_archivo();
 	
+	cout<< "Puedes revisar cualquier estadistica realizada por IPA en "
+		<< "la carpeta de estadisticas del proyecto\n(IPA/doc/estaditicas)\n";
+	
 	return;
 }
+
+
+void
+matriz_iniciales_imprimir(int **ptr_mtrz, int largo_max)
+{	
+	system("cls");
+	system("mode con: cols=300 lines=30");
 	
+	gotoxy(0, 0);
+	int i, j;
+	
+	printf("Matriz de inciales\n");
+	
+	for( i=0; i<26; i++ ){
+		gotoxy(4+i*6, 2);
+		printf("%c", ('a'+i));
+	}
+	printf("\n");
+	
+	for( i=0; i<largo_max; i++ ){
+		gotoxy(0, i+3);
+		printf("%d", i+1);
+		for(j=0; j<26; j++){
+			gotoxy(4+j*6, 3+i);
+			printf("%d", ptr_mtrz[i][j]);
+		}
+		printf("\n");
+	}	
+	
+	printf("Presione enter para continuar el analisis\n");
+	
+	char c;
+	while( (c=getch()) != 13 );
+	
+	for(i=0; i<largo_max; i++)
+		limpiarRenglon(i);
+	
+	system("mode con: cols=100 lines=30");
+}
+
+
+int **
+matriz_iniciales_creacion()
+{
+	int ** ptr_mtrz = new arreglo[10];
+	
+	if(ptr_mtrz == NULL){
+		cout << "Fallo" << endl;
+		Sleep(2000);
+		return 0;
+	}
+	
+	for( int i = 0; i < 10; i++){
+		ptr_mtrz[i] = new int[26];
+		arreglo_set_nulo(ptr_mtrz[i], ptr_mtrz[i] + 26);
+	}
+	
+	return ptr_mtrz;
+}
+
+
+string
+aminusq(string palabra)
+{	
+	/*	Convierte una cadena entera a minuscula	*/
+	
+	for( int i=0; i<palabra.length(); i++ ){
+		if(isalpha(palabra.at(i)))
+			palabra[i] = tolower(palabra.at(i));
+	}
+	
+	return palabra;
+}
+
+
+void
+matriz_resize(matriz & ptr_mtrz, int & plb_tam, int & plb_mayor)
+{
+	/*	Amplia la cantidad de filas (arreglos) que contiene la matriz	*/
+	
+	ptr_mtrz = ( int ** ) realloc( ptr_mtrz, (sizeof( int * ) * plb_tam) );
+	
+	if(ptr_mtrz == NULL){
+		cout << "No se puedo relocalizar la matriz" << endl;
+		Sleep(2000);
+		return;	
+	}
+	
+	for( int i = plb_mayor; i < plb_tam; i++){
+		ptr_mtrz[i] = (int *) malloc( sizeof(int) * 26 );
+		arreglo_set_nulo(ptr_mtrz[i], ptr_mtrz[i]+26);
+	}
+	
+	plb_mayor = plb_tam;	
+}
+
 
 bool
 analisis
@@ -331,244 +538,6 @@ analisis
 }
 	
 	
-string
-aminusq(string palabra)
-{	
-	/*	Convierte una cadena entera a minuscula	*/
-	
-	for( int i=0; i<palabra.length(); i++ ){
-		if(isalpha(palabra.at(i)))
-			palabra[i] = tolower(palabra.at(i));
-	}
-	
-	return palabra;
-}
-
-
-void
-matriz_iniciales_imprimir(int **ptr_mtrz, int largo_max)
-{	
-	system("cls");
-	system("mode con: cols=162 lines=30");
-	
-	gotoxy(0, 0);
-	int i, j;
-	
-	printf("Matriz de inciales\n");
-	
-	for( i=0; i<26; i++ ){
-		gotoxy(4+i*6, 2);
-		printf("%c", ('a'+i));
-	}
-	printf("\n");
-	
-	for( i=0; i<largo_max; i++ ){
-		gotoxy(0, 3+i);
-		printf("%d", i+1);
-		for(j=0; j<26; j++){
-			gotoxy(4+j*6, 3+i);
-			printf("%d", ptr_mtrz[i][j]);
-		}
-		printf("\n");
-	}	
-	
-	printf("Presione enter para continuar el analisis\n");
-	
-	char c;
-	while( (c=getch()) != 13 );
-	
-	for(i=0; i<largo_max; i++)
-		limpiarRenglon(i);
-	
-	system("mode con: cols=100 lines=30");
-}
-
-
-void
-arreglo_set_nulo(int * array, int * array_end)
-{
-	/*	Setea todos los valores entre un inicio y un fin dado al valor nulo	*/
-	
-	for( ; array != array_end; array++ )
-		(*array) = 0;
-	
-	return;
-}
-
-
-void
-conteo_caracteres(char * libro_caracter, string & caracteres_libro, arreglo & ptr_arreglo_apariciones, int & tl, int & tf)
-{
-	/*	Recibe un caracter extraido del libro y lo anota	*/
-	
-	int indice;
-	
-	indice = caracteres_libro.find( *libro_caracter );
-	
-	if( indice != -1 )
-		/*	Si el caracter ya fue encontrado, aumento la posicion 
-		 *	ocupa en el contador*/
-		ptr_arreglo_apariciones[indice]++;
-	
-	
-	else{
-		/*	Si el caracter de la linea no estaba previamente en la
-		 *	cadena, se suma al final	*/
-		ptr_arreglo_apariciones[tl]++;
-		tl++;
-		
-		caracteres_libro += *libro_caracter;
-	}
-	
-	if(tf == tl){
-		/*	Si el tamaño fisico del arreglo es alcanzado por el logico, 
-		 *  se realiza una operacion de agrandado del arreglo usando
-		 *  realloc  */
-		arreglo_agrandar(ptr_arreglo_apariciones, tf, 10);
-		
-	}
-}
-
-
-void
-arreglo_agrandar(arreglo & ptr_arreglo, int & tf, int incremento)
-{
-	/*	Agranda el tamaño fisico del arreglo y rellena los nuevos espacios
-	 *  nuevos con 0	*/
-	
-	tf += incremento;
-	
-	ptr_arreglo = (int*) realloc( ptr_arreglo, sizeof(int) * (tf));
-	
-	if( ptr_arreglo == NULL ){
-		printf("No se pudo relocalizar el arreglo\n");
-		free(ptr_arreglo);
-		abort();
-	}
-	
-	arreglo_set_nulo(ptr_arreglo+tf-10, ptr_arreglo+tf);
-	
-	return;
-}
-
-
-/*void
-conteo_caracteres(string libro_caracter, string & caracteres_libro, int * ptr_arreglo_apariciones, int & tl, int & tf)
-{
-	int i, j;
-	for( i = 0; i < libro_linea.length(); i++ ){
-		
-		j = caracteres_libro.find(libro_linea.at(i));
-		
-		if( j != -1)
-			/*	Si el caracter ya fue encontrado, aumento la posicion 
-			 *	ocupa en el contador*
-			ptr_arreglo_apariciones[j]++;
-		
-		
-		else{
-			/*	Si el caracter de la linea no estaba previamente en la
-			 *	cadena, lo simo al final	*
-			ptr_arreglo_apariciones[tl]++;
-			tl++;
-			
-			caracteres_libro += libro_linea.at(i);
-		}
-		
-		if(tf == tl){
-			/*	Si el tamaño fisico del arreglo es alcanzado por el logico, 
-			 *  se realiza una operacion de agrandado del arreglo usando
-			 *  realloc  *
-			tf += 10;
-			
-			ptr_arreglo_apariciones = (int*) realloc(ptr_arreglo_apariciones, sizeof(int)*tf);
-			
-			if(ptr_arreglo_apariciones == NULL){
-				printf("No se pudo relocalizar el arreglo\n");
-				free(ptr_arreglo_apariciones);
-				return ;
-			}					
-			
-			arreglo_set_nulo(ptr_arreglo_apariciones+tf-10, ptr_arreglo_apariciones+tf);
-		}
-	}
-}*/
-
-
-void
-tabla_frecuencias_salida(string caracteres_libro, int * ptr_arreglo_apariciones, int tl)
-{
-	int i, j, pos_mayor;
-	string linea_cargar;
-	
-	archivo_cargar_linea("TABLA DE FRECUENCIAS\n\nApariciones\tCaracter\n\n");
-	printf("TABLA DE FRECUENCIAS\n\nApariciones\tCaracter\n\n");
-	
-	for( i = 0; i < tl; i++ ){
-		pos_mayor = 0;
-		for(j = 0; j < tl; j++ ){
-			/*	Busco el mayor elemento del arreglo	*/
-			if( *(ptr_arreglo_apariciones + j) > *(ptr_arreglo_apariciones + pos_mayor) ){
-				pos_mayor = j;
-			}
-		}
-		
-		printf("%d\t\t%c\n", *(ptr_arreglo_apariciones + pos_mayor), caracteres_libro.at(pos_mayor));
-		
-		linea_cargar = to_string(*(ptr_arreglo_apariciones + pos_mayor));
-		linea_cargar += "\t\t";
-		linea_cargar +=	caracteres_libro.at(pos_mayor);
-		linea_cargar += "\n";
-		
-		archivo_cargar_linea(linea_cargar);
-		
-		*(ptr_arreglo_apariciones + pos_mayor) = 0;
-	}
-}
-
-
-int **
-matriz_iniciales_creacion()
-{
-	int ** ptr_mtrz = new arreglo[10];
-	
-	if(ptr_mtrz == NULL){
-		cout << "Fallo" << endl;
-		Sleep(2000);
-		return 0;
-	}
-	
-	for( int i = 0; i < 10; i++){
-		ptr_mtrz[i] = new int[26];
-		arreglo_set_nulo(ptr_mtrz[i], ptr_mtrz[i] + 26);
-	}
-	
-	return ptr_mtrz;
-}
-
-
-void
-matriz_resize(matriz & ptr_mtrz, int & plb_tam, int & plb_mayor)
-{
-	/*	Amplia la cantidad de filas (arreglos) que contiene la matriz	*/
-	
-	ptr_mtrz = ( int ** ) realloc( ptr_mtrz, (sizeof( int * ) * plb_tam) );
-	
-	if(ptr_mtrz == NULL){
-		cout << "No se puedo relocalizar la matriz" << endl;
-		Sleep(2000);
-		return;	
-	}
-	
-	for( int i = plb_mayor; i < plb_tam; i++){
-		ptr_mtrz[i] = (int *) malloc( sizeof(int) * 26 );
-		arreglo_set_nulo(ptr_mtrz[i], ptr_mtrz[i]+26);
-	}
-	
-	plb_mayor = plb_tam;	
-}
-	
-
 void
 palabras_mayor_frecuencia_salida(PtrNodoPalabra lista_dinamica_palabras, Libro & libro)
 {
@@ -610,7 +579,6 @@ palabras_mayor_frecuencia_salida(PtrNodoPalabra lista_dinamica_palabras, Libro &
 			if( tolower(cargar_palabra.at(0)) == tolower(c.at(0)) )
 				archivo_cargar_linea(cargar_palabra + "\n");
 		}
-		printf("Puedes revisar cualquier estadistica realizada por IPA en la carpeta de estadisticas del proyecto\n(IPA/doc/estaditicas)\n");
 	}
 	
 	else

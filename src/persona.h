@@ -15,10 +15,10 @@ struct Fecha {
 struct Persona {
 	char nombre[30];
 	char apellido[30];
+    char rol[15];   //  Al usar strings, el guardado en archivo binario genero problemas
 	char sexo;
 	int numeroLegajo;
 	int contrasenia[5];
-	string rol;
 	Fecha ultimoAcceso;
 };
 

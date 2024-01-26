@@ -54,7 +54,7 @@ path=libro.cpp
 cursor=4:0
 [source]
 path=prcdtexto.cpp
-cursor=501:16
+cursor=304:34
 open=true
 [source]
 path=palabra.cpp

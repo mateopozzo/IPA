@@ -119,22 +119,18 @@ validarContra(int ingresada[], int extraida[], const int tam)
 }
 
 int
-IngresarLegajo()
+IngresarLegajo(int &intentos)
 {
-	
 	/* 	Pide al usuario que ingrese su legajo y lo devuelve como variable entera 
 	 * 	si es valido	*/
-	
-	system("chcp 850");	//	setea consola a ANSI latin
-	system("cls");
-
+    
     bool flagNumero;
-    int legajo;
+    int legajo = 0;
     string legajoS;
     bool dentroDeRango = false;
 	
     gotoxy((100 - 28) / 2, 5);
-    cout << "Ingrese su numero de legajo: " << endl;
+    cout << "Ingrese su numero de legajo:" << endl;
 	
     do{ // Validacion del numero de legajo.
 		
@@ -162,13 +158,14 @@ IngresarLegajo()
         }
 		
         if (flagNumero) legajo = stoi(legajoS);		
-        gotoxy((100 - 55) / 2, 8);
+        gotoxy((100 - 54) / 2, 8);
 		
         if (legajo >= 10000 and legajo <= 89999 and flagNumero) dentroDeRango = true;
-        else cout << "Legajo incorrecto. Por favor ingrese de nuevo su legajo" << endl;
-		
-		
-	} while (!dentroDeRango);
+        else{
+            cout << "Legajo invalido. Por favor ingrese de nuevo su legajo" << endl;
+            intentos++;
+        }
+	} while (!dentroDeRango && intentos < 3);
 	
 	limpiarRenglon(8);
 
@@ -187,7 +184,8 @@ actualizar_ultima_fecha_acceso(fstream& archivo, Persona& per, int pos)
 void
 login()
 {
-    
+    system("chcp 850");	//	setea consola a ANSI latin
+    system("cls");
 	/*	Funcion encargada de comprobar que la informacion de login del usuario 
 	 *  sea la correcta	*/
 	fstream var_control;
@@ -219,37 +217,35 @@ login()
 		//INGRESO DE LEGAJO
 		do{
 			personaValida = false; 
-			legajo = IngresarLegajo(); 
-            
-            
+			legajo = IngresarLegajo(intentos); 
 			
-			while( !var_control.eof() and !personaValida ){ // mientras no haya llegado al final, y el legajo no este y la contra sea invalida
-				
-				var_control.read((char*)(&p), sizeof(Persona));
-                
-                cout<< p.numeroLegajo<<endl;
-				
-				if( legajo == p.numeroLegajo ){ //hubo coincidencia y se encontro el usuario
-					// se procede a copiar los datos de la persona en variables locales
-					nombre = string(p.nombre); 
-					apellido = string(p.apellido);  
-                    rol = string(p.rol);
-					sexo = p.sexo; 
-					dia = p.ultimoAcceso.dia; 
-					mes = p.ultimoAcceso.mes;
-					anio = p.ultimoAcceso.anio;
+            if(legajo){                
+                while( !var_control.eof() && !personaValida ){ // mientras no haya llegado al final, y el legajo no este y el legajo sea invalida
+                    var_control.read((char*)(&p), sizeof(Persona));
                     
-					personaValida = true; 
-				}
-				else pos++;
-
-			}
-			
-			if( !personaValida ){
-				printf("Legajo inexistente, volver a ingresar");
-				var_control.seekg(0, ios::beg);
-				intentos++;
-			}
+                    if( legajo == p.numeroLegajo ){ //hubo coincidencia y se encontro el usuario
+                        // se procede a copiar los datos de la persona en variables locales
+                        nombre = string(p.nombre); 
+                        apellido = string(p.apellido);  
+                        rol = string(p.rol);
+                        sexo = p.sexo; 
+                        dia = p.ultimoAcceso.dia; 
+                        mes = p.ultimoAcceso.mes;
+                        anio = p.ultimoAcceso.anio;
+                        
+                        personaValida = true; 
+                    }
+                    else pos++;
+                }
+                
+                if( !personaValida ){
+                    gotoxy( (100-37)/2 , 8);
+                    cout<<"Legajo inexistente, volver a ingresar";
+                    var_control.clear();
+                    var_control.seekg(0, ios::beg);
+                    intentos++;
+                }
+            }
 			
 		} while( !personaValida and intentos < 3 );
 		
@@ -261,7 +257,7 @@ login()
 			
 			//solicitacion de ingreso de contra
 			limpiarRenglon(8);
-			gotoxy((100 - 22) / 2, 10);
+			gotoxy((100 - 20) / 2, 10);
 			cout << "Ingresar contrase"<<char(164)<<"a\n";
 			limpiarRenglon(12);
 			gotoxy(47, 12);
@@ -272,10 +268,9 @@ login()
 			
             else {
 				intentos++; 
-				gotoxy((100 - 28) / 2, 10);
+				gotoxy((100 - 33) / 2, 14);
 				printf("Contrase%ca incorrecta, reingresar\n", 164); 
-				Sleep(2000);
-				limpiarRenglon(10);
+				limpiarRenglon(12);
 			}
 		}
 		if (contraCorrecta){
@@ -286,34 +281,19 @@ login()
 			else if (sexo == 'F') cout << "Bienvenida " << nombre << "!" << endl;
 			
 			cout << "Ultimo acceso a la aplicacion: " << dia << "/" << mes << "/" << anio << endl; 
-			Sleep(1000); 
+			Sleep(2000); 
 			
-			//persona_actualizar_fecha(persona[pos]); // actualizo el ultimo acceso al del dia actual 
-			//una vez copiado, actualizo la fecha del ultimo acceso en el archivo
 			actualizar_ultima_fecha_acceso(var_control, p, pos); 
-
+            
 			var_control.close();
-
-			/*	
-			ofstream arch_salida;
-			arch_salida.open("..\\doc\\usuarios.bin", ios::binary); //vinculamos nueva variable de flujo con el fichero para escribir
-			
-			if(arch_salida.fail()){
-				cout <<"No se ha podido abrir el fichero" << endl; 
-				exit(0); 
-			}
-			else { // apertura para escritura exitosa
-				for(i=0; i<99; i++)
-					arch_salida.write((char*)(&persona[i]), sizeof(Persona)); // actualizamos su informacion 
-
-				Sleep(2000); 
-				
-			}
-			*/
-
 			menuPpal();
 		}
 	}
+    
+    if(intentos==3){
+        gotoxy((100-48)/2, 20);
+        cout << "La cantidad de intentos permitidos fue superada\n";
+    }
 }
 void ValidacionContrasenia(int ID[]) { // Esta funcion valida la contraseña
 	

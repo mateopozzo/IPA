@@ -4,6 +4,10 @@
 #include <ctime>
 #include <cstdlib>
 #include "ahorcado.h"
+
+#define ORD_ORIGEN 6.14
+#define COEFICIENTE  1.0/22.0
+
 using namespace std;
 
 // Palabra cifrada
@@ -12,13 +16,12 @@ void cifrado_cesar(string P[]) {
     /* 
     Se considera que a mayor sea la palabra, mas intentos necesitara el 
     jugador, entonces para el maximo largo de palabra (14) se necesitaran
-    3*14 intentos, y para la menor palabra posible se brindara una cantidad
+    1,5*14 intentos, y para la menor palabra posible se brindara una cantidad
     de dos veces el largo de la palabra, de esta manera se balancean los 
     los casos mas dificiles a mayor sencilles y los mas faciles a mayor 
     dificultad
     */
-    const float k = float(-1) / float(12),
-        b = 3.25;
+    const float k = float(-1) / float(22), b = 3.25;
 
     // Declaracion de Variables 
     // El string Prand guarda una palabra aleatoria de las 100 del archivo txt
@@ -27,7 +30,7 @@ void cifrado_cesar(string P[]) {
     int offset = 6, intentos = 0, avisoIntento = 0;
 	
 	// Se calculan los intentos en funcion de la longitud de la palabra de adivinar
-    int intentosMax = (b + k * Prand.length()) * Prand.length();
+    int intentosMax = (ORD_ORIGEN - COEFICIENTE * Prand.length()) * Prand.length();
 
     // Encripta y guarda en string auxiliar(cesar)
     encriptadorCesar(Prand, cesar, offset);

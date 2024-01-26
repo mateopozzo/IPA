@@ -6,7 +6,7 @@
 
 #include "persona.h"
 
-int IngresarLegajo();
+int IngresarLegajo(int &);
 void generarID (int legajo, int ID[]);
 void convertirIDAchar(int ID[], char contrasenia[], int i);
 void Ingresarcontrasenia( char Clave[] );

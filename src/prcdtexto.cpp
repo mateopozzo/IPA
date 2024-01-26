@@ -11,7 +11,7 @@
 #include <cmath>
 using namespace std;
 
-#define ALFABETO_ITALIANO "aäbcdefghijklmnoöpqrstuvwxyzAÄBCDEFGHIJKLMNOÖPQRSTUVWXYZ"
+#define ALFABETO_ITALIANO "aï¿½bcdefghijklmnoï¿½pqrstuvwxyzAï¿½BCDEFGHIJKLMNOï¿½PQRSTUVWXYZ"
 #define NO_ES_LIBRO_VALIDO 	!(opcion_libro == "1" || opcion_libro == "2" \
 							|| opcion_libro == "x" || opcion_libro == "X")
 
@@ -30,6 +30,7 @@ void arreglo_agrandar(arreglo &, int &, int);
 void arreglo_set_nulo(int *, int *);
 void conteo_caracteres(char *, string &, arreglo &, int &, int &);
 void tabla_frecuencias_salida(string, int *, int);
+void tabla_frecuencias_salida_armado_cadena(string, int, arreglo, int);
 
 
 void estadisticas_nivel_palabras(Libro &);
@@ -124,7 +125,7 @@ estadisticas_nivel_caracteres(Libro & libro)
 	string caracteres_libro;
 	caracteres_libro.clear();
 	
-	//	Variables de tamaños fisico y logico
+	//	Variables de tamaï¿½os fisico y logico
 	int tf = 50, tl=0; 
 	//	Arreglo dinamico
 	int * ptr_arreglo_apariciones = (int*) malloc(sizeof(int) * tf);
@@ -171,7 +172,7 @@ estadisticas_nivel_caracteres(Libro & libro)
 void
 arreglo_agrandar(arreglo & ptr_arreglo, int & tf, int incremento)
 {
-	/*	Agranda el tamaño fisico del arreglo y rellena los nuevos espacios
+	/*	Agranda el tamaï¿½o fisico del arreglo y rellena los nuevos espacios
 	 *  nuevos con 0	*/
 	
 	tf += incremento;
@@ -227,7 +228,7 @@ conteo_caracteres(char * libro_caracter, string & caracteres_libro, arreglo & pt
 	}
 	
 	if(tf == tl){
-		/*	Si el tamaño fisico del arreglo es alcanzado por el logico, 
+		/*	Si el tamaï¿½o fisico del arreglo es alcanzado por el logico, 
 		 *  se realiza una operacion de agrandado del arreglo usando
 		 *  realloc  */
 		arreglo_agrandar(ptr_arreglo_apariciones, tf, 10);
@@ -236,20 +237,16 @@ conteo_caracteres(char * libro_caracter, string & caracteres_libro, arreglo & pt
 }
 
 
-
-
-
 void
 tabla_frecuencias_salida(string caracteres_libro, int * ptr_arreglo_apariciones, int tl)
 {
-	system("mode con cols=100 lines=80");
+	system("mode con cols=100 lines=85");
 	system("color F0");
 	
 	int i, j, pos_mayor;
-	string linea_cargar;
 	
-	archivo_cargar_linea("TABLA DE FRECUENCIAS\n\nApariciones\tCaracter\n\n");
-	printf("TABLA DE FRECUENCIAS\n\nApariciones\tCaracter\n\n");
+	archivo_cargar_linea("TABLA DE FRECUENCIAS\n\nApariciones\t\tCaracter\n\n");
+	printf("TABLA DE FRECUENCIAS\n\nApariciones\t\tCaracter\n\n");
 	
 	for( i = 0; i < tl; i++ ){
 		pos_mayor = 0;
@@ -259,17 +256,8 @@ tabla_frecuencias_salida(string caracteres_libro, int * ptr_arreglo_apariciones,
 				pos_mayor = j;
 			}
 		}
-		
-		printf("%d\t\t%c\t\t\n", *(ptr_arreglo_apariciones + pos_mayor), caracteres_libro.at(pos_mayor));
-		
-		linea_cargar = to_string(*(ptr_arreglo_apariciones + pos_mayor));
-		linea_cargar += "\t\t";
-		linea_cargar +=	caracteres_libro.at(pos_mayor);
-		linea_cargar += "\n";
-		
-		archivo_cargar_linea(linea_cargar);
-		
-		*(ptr_arreglo_apariciones + pos_mayor) = 0;
+        
+        tabla_frecuencias_salida_armado_cadena(caracteres_libro, pos_mayor, ptr_arreglo_apariciones, i);
 	}
 	cout<< "Puedes revisar cualquier estadistica realizada por IPA en "
 		<< "la carpeta de estadisticas del proyecto\n(IPA/doc/estaditicas)\n";
@@ -283,6 +271,48 @@ tabla_frecuencias_salida(string caracteres_libro, int * ptr_arreglo_apariciones,
 }
 
 
+void
+tabla_frecuencias_salida_armado_cadena(string caracteres_libro, int pos_mayor, arreglo ptr_arreglo_apariciones, int renglon)
+{
+    string linea_cargar;
+    
+    if( caracteres_libro.at(pos_mayor) == ' ' ){
+        printf("%d\t\t  %s\n", *(ptr_arreglo_apariciones + pos_mayor), "(Espacio en blanco)");
+            
+        linea_cargar = to_string(*(ptr_arreglo_apariciones + pos_mayor));
+    	linea_cargar += "\t\t  (Espacio en blanco)\n";
+    }
+        
+    else  if( caracteres_libro.at(pos_mayor) == '\n' ){
+        printf("%d\t\t   %s\n", *(ptr_arreglo_apariciones + pos_mayor), "(Salto de linea)");
+            
+        linea_cargar = to_string(*(ptr_arreglo_apariciones + pos_mayor));
+        linea_cargar += "\t\t    (Salto de linea)\n";
+    }
+        
+    else  if( caracteres_libro.at(pos_mayor) == '\t' ){
+        printf("%d\t\t       %s\n", *(ptr_arreglo_apariciones + pos_mayor), "(Tabulado)");
+            
+        linea_cargar = to_string(*(ptr_arreglo_apariciones + pos_mayor));
+        linea_cargar += "\t\t       (Tabulado)\n";
+    }
+    else{
+    	printf("%d", *(ptr_arreglo_apariciones + pos_mayor));
+        gotoxy(27, 4+renglon);
+        printf("%c\n", caracteres_libro.at(pos_mayor));
+        
+        linea_cargar = to_string(*(ptr_arreglo_apariciones + pos_mayor));
+        linea_cargar += "\t\t\t   ";
+        linea_cargar +=	caracteres_libro.at(pos_mayor);
+        linea_cargar += "\n";
+    }
+		
+	archivo_cargar_linea(linea_cargar);
+
+	*(ptr_arreglo_apariciones + pos_mayor) = 0;
+}
+
+
 /*	Implementaciones estadisticas nivel palabras	*/
 void
 estadisticas_nivel_palabras(Libro & libro)
@@ -292,7 +322,7 @@ estadisticas_nivel_palabras(Libro & libro)
 	/*	Creacion de matriz de [largo; caracter incial], el analisis de 
 	 *  frecuencia de letras nos permitio descubrir que no existe palabra en 
 	 *  los libros que comience con un caracter acentuado o especial, esto 
-	 *  se tuvo en cuenta al desarrollar el tamaño de la matriz	*/
+	 *  se tuvo en cuenta al desarrollar el tamaï¿½o de la matriz	*/
 	
 	cout << libro_titulo(libro) << "\nLeyendo...";
 	
@@ -409,7 +439,7 @@ void
 matriz_iniciales_imprimir(int **ptr_mtrz, int largo_max)
 {	
 	system("cls");
-	system("mode con: cols=300 lines=30");
+	system("mode con: cols=160 lines=30");
 	
 	gotoxy(0, 0);
 	int i, j;

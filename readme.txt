@@ -24,6 +24,12 @@ doc -> contiene archivos .txt (libros, palabras para juegos y estadisticas)
     doc/libros -> directorio contiene los archivos libro que la catedra proporcionó
 
 
+RECOMENDACION (IMPORTANTE)
+
+    Se recomienda ejecutar el programa como administrador para garantizar que el tamaño de la consola se adecue 
+    correctamente a lo codificado
+
+
 CONSIDERACIONES PARA SOLUCIONES DE PROCESADOR DE TEXTO
 
     - Investigando sobre la impresion de caracteres en al consola de windows se decidió que era 
@@ -37,5 +43,5 @@ CONSIDERACIONES PARA SOLUCIONES DE PROCESADOR DE TEXTO
       nivel de palabras solo considera palabras que comienzan con letras italianas no acentuadas
 
     - La lista enlazada se realizo separando palabras como l'olio en dos, 'l' que se abrevia de 'il', y
-      "olio" que por si misma es una palabra,
+      "olio" que por si misma es una palabra.
 

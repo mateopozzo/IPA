@@ -206,7 +206,7 @@ lista_palabra_enlace_condicional( PtrNodoPalabra * ptr_maestro, string cadena )
 				palabra_aumentar_apariciones(ptr_sig -> palabra);
 			}
 			else{
-				longitud = ( palabra_cadena(ptr_sig->palabra).length() <= cadena.length() )
+				longitud = ( palabra_cadena(ptr_sig->palabra).length() <= cadena.length() );
 				//	La palabra siguiente es menor o igual a la que se esta buscando
                 if ( longitud ){
                     ptr_ant = ptr_sig;

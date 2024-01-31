@@ -55,7 +55,7 @@ cursor=277:9
 open=true
 [source]
 path=libro.cpp
-cursor=209:70
+cursor=208:80
 open=true
 [source]
 path=prcdtexto.cpp

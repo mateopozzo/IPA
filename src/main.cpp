@@ -1,14 +1,12 @@
 #include "menues.h"
-#include "libro.h"
-#include <conio.h>
-#include <cstdlib>
 
 using namespace std;
 
 int main() {
 	system("echo off");
-	system("mode con: cols=100 lines=30");
-	system("chcp 850");	//	codepage de consola ASCII
+	system("color F0");						//	Fondo blanco texto negro
+	system("mode con: cols=100 lines=30");	//	Buffer de terminal
+	system("chcp 850");						//	codepage de consola ASCII
 	
 	bienvenida();
 	

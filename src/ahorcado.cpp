@@ -16,23 +16,16 @@ void ahorcado(string P[]) {
     string Prand = P[rand() % 100];
     string letra, aux, intentos, ultimoIntento;
     int errores = 0, yaIntentada = 0;
-	
-	// Se imprime base y titulo por unica vez
-	gotoxy(40, 0);
-    cout << "AHORCADO";
-	imprimirBase();
-
-    // Crea cadena de guiones bajos
     for (int i = 0; unsigned(i) < Prand.length(); i++)
         aux += "_";
-
+	
     do {
-
         /*
         Repetir mientras la cantidad de errores sea menor a 6
         y no se haya adivinado la palabra
         */
         do {
+            imprimirPresentacion(Prand);
 			// Validacion de entrada
 			
             dibujarMonigote(aux, errores);
@@ -65,12 +58,10 @@ void ahorcado(string P[]) {
             ultimoIntento = letra.at(0);
         } 
 		else {
-			
             errores += reemplazoAhorcado(Prand, aux, letra);
             intentos += letra.at(0);
             yaIntentada = 0;
         }
-		
     } while (errores < 6 and Prand != aux);
 
     // Se imprime una vez mas para mostrar la palabra completa en caso de derrota
@@ -103,6 +94,32 @@ int reemplazoAhorcado(const string Prand, string & aux, string letra) {
 
     // Si no hubo apariciones, es error
     return (apariciones == 0);
+}
+
+void cartelesIntentos(int avisoIntento, string letra, string ultimoIntento, int fila) {
+
+    string x;
+    limpiarRenglon(fila);
+
+    // Si se ha ingresado una letra ya intentada
+    if (avisoIntento) {
+        x = "Ya se ha intentado la letra " + ultimoIntento;
+        gotoxy((100 - x.length()) / 2, fila);
+        cout << x;
+    }
+
+    // Si se ingreso mas de una letra
+    if (letra.length() > 1) {
+        x = "Por favor, no ingrese mas de una letra por vez";
+        gotoxy((100 - x.length()) / 2, fila);
+        cout << x;
+    }
+
+    // Si se ingreso algo que no es letra
+    else if (!letra.empty() and !(isalpha(letra.at(0)) || (letra.at(0) == (char)164 || letra.at(0) == (char)165))) {
+        gotoxy((100 - 36) / 2, fila);
+        cout << "Por favor, ingrese unicamente letras";
+    }
 }
 
 void resultadoAhorcado(int errores, string Prand) {
@@ -163,23 +180,32 @@ void dibujarMonigote(string aux, int errores) {
     switch (errores) {
     case 6:
         imprimirPiernaD();
-		break;
+        
     case 5:
         imprimirPiernaI();
-		break;
+		
     case 4:
         imprimirBrazoD();
-		break;
+		
     case 3:
         imprimirBrazoI();
-		break;
+		
     case 2:
         imprimirTorso();
-		break;
+		
     case 1:
         imprimirCabeza();
-		break;
+		
     };
+}
+
+void imprimirPresentacion(string Prand){
+    system("cls");
+     // Se imprime base y titulo 
+    gotoxy(40, 0);
+    cout << "AHORCADO";
+    imprimirBase();
+    return;
 }
 
 void imprimirBase() {

@@ -178,32 +178,6 @@ void juego_memoria(string tex[]) {
 }
 
 
-void cartelesIntentos(int avisoIntento, string letra, string ultimoIntento, int fila) {
-
-    limpiarRenglon(fila);
-
-    // Si se ha ingresado una letra ya intentada
-    if (avisoIntento) {
-        string x = "Ya se ha intentado la letra " + ultimoIntento;
-        gotoxy((100 - x.length()) / 2, fila);
-        cout << x;
-    }
-
-    // Si se ingreso mas de una letra
-    if (letra.length() > 1) {
-        string x = "Por favor, no ingrese mas de una letra por vez";
-        gotoxy((100 - x.length()) / 2, fila);
-        cout << x;
-    }
-
-    // Si se ingreso algo que no es letra
-    else if (!letra.empty() and !isalpha(letra.at(0))) {
-        string x = "Por favor, ingrese unicamente letras";
-        gotoxy((100 - x.length()) / 2, fila);
-        cout << x;
-    }
-}
-
 void ordenBurbuja(int arreglo[],
     const int tl) {
 

@@ -10,6 +10,7 @@ using namespace std;
 void numeros_otro_idioma();
 void derivador_noidm(string num, string Nroid, string aum);
 
+/*  Funciones que escriben el numero en su respectivo idioma    */
 void mostrarEspaniol (const int numero);
 void mostrarIngles (const int numero);
 void mostrarItaliano (const int numero);
@@ -17,6 +18,7 @@ void mostrarPortugues (const int numero);
 void mostrarFrances (const int numero);
 void mostrarEscrito (const int numero, const int Nroidioma);
 
+/*  Funnciones que grafican los numeros */
 void graficoCero (int aumento);
 void graficoUno (int aumento);
 void graficoDos (int aumento);

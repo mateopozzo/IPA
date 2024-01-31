@@ -52,5 +52,5 @@ bool esIntentoInval(string letra) {
     /*
     Es una sola letra 
     */
-    return (letra.length() != 1 or !isalpha(letra.at(0)));
+    return (letra.length() != 1 or !(isalpha(letra.at(0)) || (letra.at(0) == (char)164 || letra.at(0) == (char)165)));
 }

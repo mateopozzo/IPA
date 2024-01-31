@@ -5,23 +5,22 @@
 #include <cstdlib>
 #include "ahorcado.h"
 
-#define ORD_ORIGEN 6.14
+
+/*  Se considera que a mayor sea la palabra, mas intentos necesitara el 
+    jugador, entonces para el maximo largo de palabra (14) se necesitaran
+    1,5*14 intentos, y para la menor palabra posible se brindara una cantidad
+    de dos veces el largo de la palabra, de esta manera se balancean los 
+    los casos mas dificiles a mayor sencilles y los mas faciles a mayor 
+    dificultad  */
 #define COEFICIENTE  1.0/22.0
+#define ORD_ORIGEN 6.14
 
 using namespace std;
 
 // Palabra cifrada
 void cifrado_cesar(string P[]) {
     srand(time(NULL));
-    /* 
-    Se considera que a mayor sea la palabra, mas intentos necesitara el 
-    jugador, entonces para el maximo largo de palabra (14) se necesitaran
-    1,5*14 intentos, y para la menor palabra posible se brindara una cantidad
-    de dos veces el largo de la palabra, de esta manera se balancean los 
-    los casos mas dificiles a mayor sencilles y los mas faciles a mayor 
-    dificultad
-    */
-    const float k = float(-1) / float(22), b = 3.25;
+    
 
     // Declaracion de Variables 
     // El string Prand guarda una palabra aleatoria de las 100 del archivo txt
@@ -46,22 +45,19 @@ void cifrado_cesar(string P[]) {
     */
 
     do {
-        // Limpia pantalla
         system("cls");
-
-        gotoxy(43, 5);
-        cout << "CIFRADO CESAR";
-
-        // Calcula el medio de la pantalla e imprime la palabra cifrada
-        // con los intentos acertados por el usuario
-        gotoxy((100 - cesar.length()) / 2, 15);
-        cout << cesar;
-
-        gotoxy((100 - aux.length()) / 2, 17);
-        cout << aux;
-		
         do {
-			
+            gotoxy(43, 5);
+            cout << "CIFRADO CESAR";
+            // Calcula el medio de la pantalla e imprime la palabra cifrada
+            // con los intentos acertados por el usuario
+            
+            gotoxy((100 - cesar.length()) / 2, 15);
+            cout << cesar;
+            
+            gotoxy((100 - aux.length()) / 2, 17);
+            cout << aux;
+            
             cartelesIntentos(avisoIntento, letra, ultimoIntento, 27);
 			
             limpiarRenglon(25);
@@ -69,7 +65,8 @@ void cifrado_cesar(string P[]) {
             cout << "Ingrese letra: ";
             getline(cin, letra);
             avisoIntento = 0;
-
+            
+            system("cls");
         } while (esIntentoInval(letra));
 
         /*

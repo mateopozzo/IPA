@@ -293,6 +293,8 @@ login()
     if(intentos==3){
         gotoxy((100-48)/2, 20);
         cout << "La cantidad de intentos permitidos fue superada\n";
+        char c;
+        while((c = getch()) != 13 );
     }
 }
 void ValidacionContrasenia(int ID[]) { // Esta funcion valida la contraseña
@@ -347,7 +349,6 @@ void ValidacionContrasenia(int ID[]) { // Esta funcion valida la contraseña
 
     if (esValida) menuPpal(); 
 	// si la contraseña es correcta llamamos al menu principal
-
 }
 
 void convertirIDAchar(int ID[], char contrasenia[], int i) { 

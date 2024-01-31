@@ -11,7 +11,6 @@ ifstream manejador;
 ofstream escritor;
 
 
-//faltan comentarios
 archivo setup(string nombre, string nombreF){
 	archivo aux;
 	aux.nombre = nombre;
@@ -28,18 +27,25 @@ bool apertura(archivo X){
 		return true;
 }
 	
-string leerLinea(archivo & X, bool & final){
+string leerLinea(archivo &X, bool &final){
 	string linea;
 	final=false;
 	if (manejador.eof()==false){
 		getline(manejador, linea);
 		X.cantidad++;
-		}
+    }
 	else
 		final=true;
 	return linea;
 }
 	
+char leerCaracter(archivo & x, bool & final){
+	char c;
+	manejador.get(&c, 2, EOF);
+	final=(!manejador.eof());
+	return c;
+}
+
 bool cierre(archivo X){
 	manejador.close();
 	if (manejador.fail())

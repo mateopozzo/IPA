@@ -20,11 +20,13 @@ struct archivo{
 archivo setup(string nombre, string nombreF);
 bool apertura(archivo x);
 string leerLinea(archivo & x, bool & final);
+char leerCaracter(archivo & x, bool & final);
 int leidas(archivo x);
 bool cierre(archivo x);
 
-void archivo_cargar_linea(string linea);
-bool archivo_setup_escritura(const char * direccion);
-void archivo_cerrar_escritura();
+/*	Funciones que amplian el tda	*/
+bool archivo_setup_escritura(const char * direccion);	//	Abre el flujo de escritura del archivo
+void archivo_cargar_linea(string linea);				//	Escribe una linea de texto al archivo
+void archivo_cerrar_escritura();						//	Cierra el flujo de escritura del archivo
 
 #endif

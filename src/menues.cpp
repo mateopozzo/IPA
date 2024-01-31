@@ -17,8 +17,12 @@ using namespace std;
 
 // Funciones de menu
 
-void bienvenida() {
+void
+bienvenida()
+{
 	
+    /*  Espera a que el usuario aprete el enter */
+
     logo();
 	char c;
 	
@@ -29,16 +33,16 @@ void bienvenida() {
 	return;
 }
 
-void logo() {
+void
+logo()
+{
 	
 	system("cls");	//	Limpia consola
-
-    system("color F0"); // Fondo blanco texto negro
 
     string bienvenidos = "BIENVENIDOS ;)";
     int tam = bienvenidos.size();
 
-    // Logo
+    //  Impresion logo
     gotoxy(30, 2);
     cout << "      :+:::+::+:        :+:::+:::           :+:  \n";
     gotoxy(30, 3);
@@ -71,7 +75,10 @@ void logo() {
     return;
 }
 
-bool verificar_si_o_no(string palabra) {
+bool
+verificar_si_o_no(string palabra)
+{
+    /*  Verifica que el usuario ingrese si o no  al salir de la aplicacion  */
 
     bool valido = false;
     if (palabra == "si"
@@ -80,7 +87,9 @@ bool verificar_si_o_no(string palabra) {
     return valido;
 }
 
-bool cierre_app() {
+bool
+cierre_app() 
+{
     system("cls");
 
     string opcion;
@@ -103,45 +112,36 @@ bool cierre_app() {
         pasar_minusculas(opcion);
         es_opcion = verificar_si_o_no(opcion);
 		
-		
         if (es_opcion) {
-			
             system("cls");
-			
+            
             if (opcion == "si"){
-				
 				cout << char(173) << "HASTA LUEGO!" << endl;
 				continuar = false;
-				
 			}
 			
             else if (opcion == "no")
-				
 				continuar = true;
-				
-			
         }
 		
 		else cout << "Ingresar unicamente si o no: ";
 		
     } while (es_opcion == false);
 	
-	
     return continuar;
 }
 
-bool menu_valido(char c) {
-
+bool
+menu_valido(char c) 
+{
+    /*  Evalua que el usuario haya ingresado un numero o una x  */
     bool rep;
 
     if (isdigit(c) or toupper(c) == 'X') 
-		
         rep = true;
-		
     
 	else{
 		rep = false;
-		
 		cout << "Opcion no disponible\n";
 	}
 	
@@ -149,7 +149,9 @@ bool menu_valido(char c) {
 }
 
 
-void menuPpal() {
+void
+menuPpal()
+{
 	
 	char opcion_user;
 	bool flag = true;
@@ -167,11 +169,8 @@ void menuPpal() {
             "X) Salir de App\n" << endl;
 		
 		
-        do {
-			
-            opcion_user = getch();
-			
-        } while (!menu_valido(opcion_user));
+        do opcion_user = getch();
+        while (!menu_valido(opcion_user));
 		
         switch (toupper(opcion_user)) {
 		
@@ -200,8 +199,9 @@ void menuPpal() {
     return;
 }
 
-void lectorPalabras(string P[]) {
-
+void
+lectorPalabras(string P[]) 
+{
     // Ubicacion de archivo de texto
     string nombre_archivo = "..\\..\\IPA\\doc\\palabras-1.txt";
 	
@@ -210,7 +210,6 @@ void lectorPalabras(string P[]) {
 	
     // Abre lectura de la ubicacion del archivo txt
     entrada = setup("Arreglo de palabras", nombre_archivo);
-	
 
     if(!apertura(entrada))
 		cout << "Error en apertura de archivo" << endl;
@@ -220,11 +219,13 @@ void lectorPalabras(string P[]) {
 		do {
 			P[i] = leerLinea(entrada, final);
 			i++;
-		} while (not final);
+		} while (!final);
 	}
 }
 
-void menu_juegos(){
+void
+menu_juegos()
+{
 	
     string P[110], opcion = "no";
 	char juego;
@@ -249,13 +250,11 @@ void menu_juegos(){
             "X) A menu principal\n";
 		
         do { // Validacion de input
-            
             juego = getch();
 			
             // Aviso ingreso invalido
             limpiarRenglon(12);
             gotoxy(0, 12);
-			
         } while (!menu_valido(juego) );
 		
         // Abre juego segun lista
@@ -293,7 +292,9 @@ void menu_juegos(){
     return;
 }
 
-void menu_abecedarios() {
+void
+menu_abecedarios() 
+{
 
     char opcion;
 	bool flag = true;
@@ -360,7 +361,9 @@ void menu_abecedarios() {
     return;
 }
 
-void menu_procesador_texto(){
+void
+menu_procesador_texto()
+{
 	char opcion;
 	bool flag = true;
 	

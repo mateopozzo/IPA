@@ -1,6 +1,5 @@
 #include "prcdtexto.h"
 #include "fgrales.h"
-#include "palabra.h"
 #include "archivo.h"
 #include <conio.h>
 #include <cctype>
@@ -39,7 +38,7 @@ int ** matriz_iniciales_creacion();
 string aminusq(string);
 void matriz_resize(matriz &, int &, int &);
 bool analisis(	int ** ptr_mtrz, int plb_mayor, float & promedio, float & vocales_prc, float & consonantes_prc);
-void palabras_mayor_frecuencia_salida(PtrNodoPalabra , Libro &);
+void palabras_mayor_frecuencia_salida(PtrNodoPalabra &, Libro &);
 
 
 //	Implementacion de funciones
@@ -338,9 +337,7 @@ estadisticas_nivel_palabras(Libro & libro)
 	
 	else {
 		lista_dinamica_palabras = lista_palabra_crear();
-		
 		while( libro_leer_linea(linea) ){
-			
 			while( plb_final != -1 ){
 				
 				plb_inicio = linea.find_first_of(ALFABETO_ITALIANO);
@@ -381,7 +378,7 @@ estadisticas_nivel_palabras(Libro & libro)
 		}
 		
 		/*	Impresion de matriz	*/
-		matriz_iniciales_imprimir(ptr_mtrz, plb_mayor);
+        matriz_iniciales_imprimir(ptr_mtrz, plb_mayor);
 		
 		cout << libro_titulo(libro) << "\n";
 		
@@ -494,20 +491,6 @@ matriz_iniciales_creacion()
 }
 
 
-string
-aminusq(string palabra)
-{	
-	/*	Convierte una cadena entera a minuscula	*/
-	
-	for( int i=0; i<palabra.length(); i++ ){
-		if(isalpha(palabra.at(i)))
-			palabra[i] = tolower(palabra.at(i));
-	}
-	
-	return palabra;
-}
-
-
 void
 matriz_resize(matriz & ptr_mtrz, int & plb_tam, int & plb_mayor)
 {
@@ -527,6 +510,20 @@ matriz_resize(matriz & ptr_mtrz, int & plb_tam, int & plb_mayor)
 	}
 	
 	plb_mayor = plb_tam;	
+}
+
+
+string
+aminusq(string palabra)
+{	
+	/*	Convierte una cadena entera a minuscula	*/
+	
+	for( int i=0; i<palabra.length(); i++ ){
+		if(isalpha(palabra.at(i)))
+			palabra[i] = tolower(palabra.at(i));
+	}
+	
+	return palabra;
 }
 
 
@@ -569,7 +566,7 @@ analisis
 	
 	
 void
-palabras_mayor_frecuencia_salida(PtrNodoPalabra lista_dinamica_palabras, Libro & libro)
+palabras_mayor_frecuencia_salida(PtrNodoPalabra &lista_dinamica_palabras, Libro & libro)
 {
 	/*	Salida de 5 palabras de mayor aparicion por consola y ordenadas de 
 	 *  de forma descendente en archivo	*/
@@ -599,15 +596,22 @@ palabras_mayor_frecuencia_salida(PtrNodoPalabra lista_dinamica_palabras, Libro &
 	
 	string aux;
 	string cargar_palabra;
+    int cant_apariciones, i;
 	aux = toupper(c.at(0));
 	string path = "..\\doc\\estadisticas\\" + libro_titulo(libro) + "\\palabras" + aux +".txt";
 	
 	//	Escritura de archivo
 	if(archivo_setup_escritura(path.c_str())){
+        archivo_cargar_linea("Palabra\t\t   Apariciones\n");
 		while( lista_dinamica_palabras != NULL ){
-			cargar_palabra = nodo_palabra_siguiente(lista_dinamica_palabras);
+            cant_apariciones = palabra_apariciones(lista_dinamica_palabras->palabra);
+			cargar_palabra = nodo_palabra_siguiente(lista_dinamica_palabras) + "";
+            for( i = cargar_palabra.length(); i<24; i++ )
+                cargar_palabra += " ";
+            cargar_palabra += to_string(cant_apariciones) + "\n";
+            
 			if( tolower(cargar_palabra.at(0)) == tolower(c.at(0)) )
-				archivo_cargar_linea(cargar_palabra + "\n");
+				archivo_cargar_linea(cargar_palabra);
 		}
 	}
 	
